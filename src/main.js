@@ -69,7 +69,7 @@ try {
     onXray: (on) => instrument.setXray(on),
     onNet: (net) => { instrument.highlightNet(net); panel.setSelected(null); },
   });
-  document.body.append(panel.el);
+  document.body.insertBefore(panel.el, document.querySelector('.bar'));
   document.querySelectorAll('.view-toggle [data-view]').forEach((b) => b.addEventListener('click', () => {
     const inside = b.dataset.view === 'inside';
     document.querySelectorAll('.view-toggle [data-view]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));

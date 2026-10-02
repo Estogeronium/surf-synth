@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeGeometries, toCreasedNormals } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import hw from '../hardware-data/hardware.json';
 
 const MM = 1 / hw.unit_mm;                       // millimetres -> scene units
@@ -8,10 +8,11 @@ const T_PANEL = 0.1, T_LID = 0.1, T_WALL = 0.11;
 const B = hw.board;
 const PCB_T = B.thickness;                       // mm
 
+// palette: matte white board, graphite parts, teal silkscreen and one warm orange for hardware
 const COL = {
-  board: 0x2a7b57, boardSilk: '#f4f6f2', gold: 0xd7b44a, black: 0x1d2022, socket: 0x2a2e31, pin: 0xb9bec2,
-  pico: 0x1f7a4a, red: 0xb3262a, resistor: 0xd9c38e, ceramic: 0xd6a84c, glass: 0xd9873a, alu: 0xc9ced1, brass: 0xc2a24a,
-  el16: 0x20406f, stripe: 0xe8e8e8,
+  board: 0xf0f0ec, black: 0x1b1e20, socket: 0x24282b, pin: 0xc3c8cb,
+  pico: 0x16231e, red: 0xe0452a, resistor: 0xe2cf9c, ceramic: 0xe3b04b, alu: 0xd2d6d8, orange: 0xff6a1a,
+  el16: 0x2a2f33, stripe: 0xeeeeea,
 };
 const BAND = { black: 0x111111, brown: 0x6b3a1e, red: 0xc02a1d, orange: 0xe5782a, yellow: 0xe8c534, green: 0x2e8b4a, blue: 0x2a52b8, violet: 0x7a3fa0, grey: 0x8a8d90, white: 0xf2f2f2, gold: 0xc9a43c, silver: 0xb8bcc0 };
 
@@ -108,16 +109,16 @@ function picoTexture() {
   const R = ['GP16', 'GP17', 'GND', 'GP18', 'GP19', 'GP20', 'GP21', 'GND', 'GP22', 'RUN', 'GP26', 'GP27', 'AGND', 'GP28', 'VREF', '3V3', '3V3_EN', 'GND', 'VSYS', 'VBUS'];
   const used = new Set(['GP9', 'GP10', 'GP11', 'GP15', 'GP16', 'GP17', 'GP18', 'GP19', 'AGND', '3V3', 'GND', 'VSYS']);
   return canvasTex(210, 520, (x, w, h) => {
-    x.fillStyle = '#1f7a4a'; x.fillRect(0, 0, w, h);
-    x.fillStyle = '#d8efe0'; x.font = '600 13px Helvetica, Arial, sans-serif'; x.textAlign = 'center';
+    x.fillStyle = '#16231e'; x.fillRect(0, 0, w, h);
+    x.fillStyle = '#e9f3ee'; x.font = '600 13px Helvetica, Arial, sans-serif'; x.textAlign = 'center';
     x.fillText('Raspberry Pi Pico 2', w / 2, h * 0.58); x.font = '11px Helvetica, Arial, sans-serif'; x.fillText('RP2350', w / 2, h * 0.58 + 16);
     x.font = '600 10px Helvetica, Arial, sans-serif';
     for (let i = 0; i < 20; i++) {
       const y = 22 + i * (h - 44) / 19;
-      x.textAlign = 'left'; x.fillStyle = used.has(L[i]) ? '#ffe27a' : '#a9d2b8'; x.fillText(L[i], 16, y + 4);
-      x.textAlign = 'right'; x.fillStyle = used.has(R[19 - i]) ? '#ffe27a' : '#a9d2b8'; x.fillText(R[19 - i], w - 16, y + 4);
+      x.textAlign = 'left'; x.fillStyle = used.has(L[i]) ? '#00e0cf' : '#7e948a'; x.fillText(L[i], 16, y + 4);
+      x.textAlign = 'right'; x.fillStyle = used.has(R[19 - i]) ? '#00e0cf' : '#7e948a'; x.fillText(R[19 - i], w - 16, y + 4);
     }
-    x.fillStyle = '#e8c534'; for (let i = 0; i < 20; i++) { const y = 22 + i * (h - 44) / 19; x.fillRect(2, y - 3, 7, 7); x.fillRect(w - 9, y - 3, 7, 7); }
+    x.fillStyle = '#d8dcde'; for (let i = 0; i < 20; i++) { const y = 22 + i * (h - 44) / 19; x.fillRect(2, y - 3, 7, 7); x.fillRect(w - 9, y - 3, 7, 7); }
   });
 }
 function buildPico() {
@@ -148,12 +149,12 @@ function buildAmp() {
   const g = new THREE.Group();
   g.add(box(17.8, 2.54, 8.5, mat(COL.socket), 0, 0, 0));                    // 1x7 socket along x
   const tex = canvasTex(356, 420, (x, w, h) => {
-    x.fillStyle = '#b3262a'; x.fillRect(0, 0, w, h);
+    x.fillStyle = '#e0452a'; x.fillRect(0, 0, w, h);
     x.fillStyle = '#fff'; x.font = '600 24px Helvetica, Arial, sans-serif'; x.textAlign = 'center';
     x.fillText('MAX98357A', w / 2, h * 0.55); x.font = '16px Helvetica, Arial, sans-serif'; x.fillText('I2S 3W Amp', w / 2, h * 0.55 + 24);
     x.font = '600 16px Helvetica, Arial, sans-serif'; const names = ['VIN', 'GND', 'SD', 'GAIN', 'DIN', 'BCLK', 'LRC'];
     names.forEach((n, i) => { x.fillText(n, (i + 0.5) * w / 7, 24); });
-    x.fillStyle = '#e8c534'; x.fillRect(w * 0.18, h - 36, 26, 26); x.fillRect(w * 0.7, h - 36, 26, 26);
+    x.fillStyle = '#d8dcde'; x.fillRect(w * 0.18, h - 36, 26, 26); x.fillRect(w * 0.7, h - 36, 26, 26);
     x.fillStyle = '#fff'; x.fillText('+', w * 0.18 + 13, h - 44); x.fillText('−', w * 0.7 + 13, h - 44);
   });
   const pcb = new THREE.Mesh(new THREE.BoxGeometry(19.5, 21.5, 1.0), [mat(COL.red), mat(COL.red), mat(COL.red), mat(COL.red), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 }), mat(COL.red)]);
@@ -206,7 +207,8 @@ export function createInterior(housingMat) {
   };
   rr(shape, W, H, 0.2);
   const inner = new THREE.Path(); rr(inner, W - 2 * T_WALL, H - 2 * T_WALL, 0.08); shape.holes.push(inner);
-  const ring = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth: D - T_PANEL - T_LID, bevelEnabled: false, curveSegments: 10 }), housingMat);
+  const ringGeo = toCreasedNormals(new THREE.ExtrudeGeometry(shape, { depth: D - T_PANEL - T_LID, bevelEnabled: false, curveSegments: 16 }), Math.PI / 5);
+  const ring = new THREE.Mesh(ringGeo, housingMat);
   ring.position.z = -D / 2 + T_LID; ring.castShadow = true; ring.receiveShadow = true;
   const panel = new THREE.Mesh(new RoundedBoxGeometry(W, H, T_PANEL, 6, 0.04), housingMat);
   panel.position.z = D / 2 - T_PANEL / 2; panel.castShadow = true; panel.receiveShadow = true;
@@ -222,29 +224,46 @@ export function createInterior(housingMat) {
   // perfboard
   const zTop = -(B.standoff + PCB_T);                               // component side, mm from panel back
   const sx = B.w, sy = B.h;
+  const MONO = '"SF Mono", Menlo, Consolas, monospace';
   const pcbTex = canvasTex(Math.round(sx * 12), Math.round(sy * 12), (x, w, h) => {
-    const S = 12; x.fillStyle = '#2a7b57'; x.fillRect(0, 0, w, h);
-    for (let c = 0; c < B.cols; c++) for (let r = 0; r < B.rows; r++) {
-      const px = (sx / 2 + (c - (B.cols - 1) / 2) * B.pitch) * S, py = (sy / 2 + (r - (B.rows - 1) / 2) * B.pitch) * S;
-      x.fillStyle = '#d7b44a'; x.beginPath(); x.arc(px, py, 3.4, 0, 7); x.fill();
-      x.fillStyle = '#143d2b'; x.beginPath(); x.arc(px, py, 1.5, 0, 7); x.fill();
-    }
-    // silkscreen frames of the big parts
-    x.strokeStyle = '#f4f6f2'; x.lineWidth = 2; x.fillStyle = '#f4f6f2'; x.font = '600 14px Helvetica, Arial, sans-serif'; x.textAlign = 'center';
+    const S = 12;
+    x.fillStyle = '#f0f0ec'; x.fillRect(0, 0, w, h);
     const hp = (c, r) => [(sx / 2 + (c - (B.cols - 1) / 2) * B.pitch) * S, (sy / 2 + (r - (B.rows - 1) / 2) * B.pitch) * S];
-    const rect = (c0, r0, c1, r1, label) => { const a = hp(c0, r0), b = hp(c1, r1); x.strokeRect(a[0] - 12, a[1] - 12, b[0] - a[0] + 24, b[1] - a[1] + 24); x.fillText(label, (a[0] + b[0]) / 2, b[1] + 28); };
-    rect(3, 3, 10, 22, 'U1 Pico 2'); rect(16, 5, 19, 12, 'U2 MCP3008'); rect(3, 25, 9, 25, 'U3 MAX98357A');
-    x.font = '600 12px Helvetica, Arial, sans-serif';
+    // pads
+    for (let c = 0; c < B.cols; c++) for (let r = 0; r < B.rows; r++) {
+      const [px, py] = hp(c, r);
+      x.fillStyle = '#c4c9cc'; x.beginPath(); x.arc(px, py, 3.7, 0, 7); x.fill();
+      x.fillStyle = '#6f777b'; x.beginPath(); x.arc(px, py, 1.4, 0, 7); x.fill();
+    }
+    // coordinates along the edges, like a drawing sheet
+    x.fillStyle = '#0b8f86'; x.font = `600 9px ${MONO}`; x.textAlign = 'center';
+    for (let c = 0; c < B.cols; c++) { const [px] = hp(c, 0); x.fillText(String.fromCharCode(65 + c), px, 12); x.fillText(String.fromCharCode(65 + c), px, h - 6); }
+    x.textAlign = 'right';
+    for (let r = 0; r < B.rows; r++) { const [, py] = hp(0, r); x.fillText(String(r + 1), 17, py + 3); }
+    x.textAlign = 'left';
+    for (let r = 0; r < B.rows; r++) { const [, py] = hp(B.cols - 1, r); x.fillText(String(r + 1), w - 17, py + 3); }
+    // registration marks
+    x.strokeStyle = '#0b8f86'; x.lineWidth = 1.5;
+    for (const [px, py] of [[28, 28], [w - 28, 28], [28, h - 28], [w - 28, h - 28]]) { x.beginPath(); x.moveTo(px - 8, py); x.lineTo(px + 8, py); x.moveTo(px, py - 8); x.lineTo(px, py + 8); x.stroke(); x.beginPath(); x.arc(px, py, 5, 0, 7); x.stroke(); }
+    // wordmark
+    const [wx, wy] = hp(12, 1.2);
+    x.fillStyle = '#00cfc1'; x.font = `800 64px Helvetica, Arial, sans-serif`; x.textAlign = 'left'; x.fillText('SURF', wx, wy + 30);
+    x.fillStyle = '#2b3033'; x.font = `600 11px ${MONO}`; x.fillText('DIGITAL · REV 01', wx + 3, wy + 52);
+    x.fillStyle = '#6d7377'; x.font = `500 9px ${MONO}`; x.fillText('RP2350 / I2S / SPI', wx + 3, wy + 66);
+    // frames of the big parts
+    x.strokeStyle = '#0b8f86'; x.fillStyle = '#0b8f86'; x.lineWidth = 2; x.textAlign = 'center';
+    const frame = (c0, r0, c1, r1, label, pad) => { const a2 = hp(c0, r0), b2 = hp(c1, r1); x.strokeRect(a2[0] - pad, a2[1] - pad, b2[0] - a2[0] + 2 * pad, b2[1] - a2[1] + 2 * pad); x.font = `700 11px ${MONO}`; x.fillText(label, (a2[0] + b2[0]) / 2, b2[1] + pad + 15); };
+    frame(3, 3, 10, 22, 'U1 · PICO 2', 36); frame(16, 5, 19, 12, 'U2 · MCP3008', 20); frame(3, 25, 9, 25, 'U3 · MAX98357A', 18);
+    // small parts
     for (const p of hw.parts) {
       if (p.side !== 'rear' || !p.pads) continue;
-      const q = Object.values(p.pads); const cx = q.reduce((s2, v) => s2 + v[0], 0) / q.length, cy = q.reduce((s2, v) => s2 + v[1], 0) / q.length;
-      // pad coordinates are device mm: convert to canvas (rear view: x mirrored)
-      const X = (B.cx + sx / 2 - cx) * S, Y = (B.cy + sy / 2 - cy) * S;
-      x.fillText(p.ref, X, Y - 22);
+      const q = Object.values(p.pads).map((v) => [(B.cx + sx / 2 - v[0]) * S, (B.cy + sy / 2 - v[1]) * S]);
+      const x0 = Math.min(...q.map((v) => v[0])) - 14, x1 = Math.max(...q.map((v) => v[0])) + 14, y0 = Math.min(...q.map((v) => v[1])) - 14, y1 = Math.max(...q.map((v) => v[1])) + 14;
+      x.lineWidth = 1.6; x.beginPath(); x.roundRect(x0, y0, x1 - x0, y1 - y0, 7); x.stroke();
+      x.font = `700 10px ${MONO}`; x.textAlign = 'center'; x.fillText(p.ref, (x0 + x1) / 2, y0 - 4);
     }
-    x.font = '600 20px Helvetica, Arial, sans-serif'; x.textAlign = 'left'; x.fillText('SURF SYNTH · цифровая версия', 20, 30);
   });
-  const boardMats = [mat(COL.board), mat(COL.board), mat(COL.board), mat(COL.board), mat(COL.board), mat(COL.board)];
+  const boardMats = Array.from({ length: 6 }, () => mat(COL.board, { roughness: 0.7 }));
   const pcb = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, PCB_T), boardMats);
   pcb.position.set(B.cx, B.cy, -B.standoff - PCB_T / 2);
   const face = new THREE.Mesh(new THREE.PlaneGeometry(sx, sy), new THREE.MeshStandardMaterial({ map: pcbTex, roughness: 0.6 }));
@@ -253,7 +272,7 @@ export function createInterior(housingMat) {
   // standoffs
   for (const dx of [-1, 1]) for (const dy of [-1, 1]) {
     const x = B.cx + dx * (sx / 2 - 3.8), y = B.cy + dy * (sy / 2 - 3.8);
-    panelFrame.add(cyl(2.75, B.standoff, mat(COL.brass, { metalness: 0.7, roughness: 0.4 }), x, y, -B.standoff));
+    panelFrame.add(cyl(2.75, B.standoff, mat(COL.orange, { metalness: 0.4, roughness: 0.45 }), x, y, -B.standoff));
   }
 
   // components on the rear side of the board
@@ -310,35 +329,52 @@ export function createInterior(housingMat) {
   const wireGroup = new THREE.Group(); panelFrame.add(wireGroup);
   const wires = [];
   const bx0 = B.cx - sx / 2, bx1 = B.cx + sx / 2, by0 = B.cy - sy / 2, by1 = B.cy + sy / 2;
+  function roundedPath(pts, r) {
+    const path = new THREE.CurvePath();
+    const P = pts.filter((v, i) => i === 0 || v.distanceTo(pts[i - 1]) > 1e-3);
+    let prev = P[0].clone();
+    for (let i = 1; i < P.length - 1; i++) {
+      const a2 = P[i - 1], b2 = P[i], c2 = P[i + 1];
+      const d1 = b2.clone().sub(a2), d2 = c2.clone().sub(b2);
+      const rr = Math.min(r, d1.length() / 2, d2.length() / 2);
+      const p1 = b2.clone().addScaledVector(d1.clone().normalize(), -rr), p2 = b2.clone().addScaledVector(d2.clone().normalize(), rr);
+      if (prev.distanceTo(p1) > 1e-3) path.add(new THREE.LineCurve3(prev, p1));
+      path.add(new THREE.QuadraticBezierCurve3(p1, b2.clone(), p2));
+      prev = p2;
+    }
+    path.add(new THREE.LineCurve3(prev, P[P.length - 1].clone()));
+    return path;
+  }
+  let wireIndex = 0;
   function route(w) {
     const P = new THREE.Vector3(...w.p), Q = new THREE.Vector3(...w.q);
     const onBoard = (v) => Math.abs(v.z - zTop) < 0.5;
-    const pts = [];
-    const lift = (v) => new THREE.Vector3(v.x, v.y, v.z - 1.2);
-    const around = (v) => {
-      // go from a point in front of the board around its nearest edge to the rear side
-      const dxl = v.x - bx0, dxr = bx1 - v.x, dyb = v.y - by0, dyt = by1 - v.y, m = Math.min(dxl, dxr, dyb, dyt);
-      let ex = v.x, ey = v.y;
-      if (m === dxl) ex = bx0 - 1.5; else if (m === dxr) ex = bx1 + 1.5; else if (m === dyb) ey = by0 - 1.5; else ey = by1 + 1.5;
-      return [new THREE.Vector3(v.x, v.y, v.z), new THREE.Vector3(ex, ey, v.z), new THREE.Vector3(ex, ey, zTop - 3)];
-    };
+    const k = wireIndex++;
+    const h = 3.2 + ((k * 3) % 5) * 1.5;            // every wire at its own height, so bundles do not merge
+    const V = (x, y, z) => new THREE.Vector3(x, y, z);
+    const up = zTop - h;
     if (onBoard(P) && onBoard(Q)) {
-      const len = P.distanceTo(Q), h = Math.min(2.5 + len * 0.1, 11);
-      pts.push(P, lift(P), new THREE.Vector3((P.x + Q.x) / 2, (P.y + Q.y) / 2, zTop - h), lift(Q), Q);
-    } else {
-      const panelPt = onBoard(P) ? Q : P, boardPt = onBoard(P) ? P : Q;
-      const a = around(panelPt);
-      pts.push(...a, new THREE.Vector3(boardPt.x, boardPt.y, zTop - 5), boardPt);
-      if (!onBoard(P)) { /* order is panel -> board already */ } else pts.reverse();
+      const corner = k % 2 ? V(Q.x, P.y, up) : V(P.x, Q.y, up);
+      return [P, V(P.x, P.y, up), corner, V(Q.x, Q.y, up), Q];
     }
-    return pts;
+    const panelPt = onBoard(P) ? Q : P, boardPt = onBoard(P) ? P : Q;
+    const dxl = panelPt.x - bx0, dxr = bx1 - panelPt.x, dyb = panelPt.y - by0, dyt = by1 - panelPt.y, m = Math.min(dxl, dxr, dyb, dyt);
+    const off = 1.4;
+    let E;
+    if (m === dxl) E = V(bx0 - off, panelPt.y, panelPt.z); else if (m === dxr) E = V(bx1 + off, panelPt.y, panelPt.z);
+    else if (m === dyb) E = V(panelPt.x, by0 - off, panelPt.z); else E = V(panelPt.x, by1 + off, panelPt.z);
+    const side = (m === dxl || m === dxr);
+    const Er = V(E.x, E.y, up);
+    const mid = side ? V(E.x, boardPt.y, up) : V(boardPt.x, E.y, up);
+    const pts = [panelPt, E, Er, mid, V(boardPt.x, boardPt.y, up), boardPt];
+    return onBoard(P) ? pts.reverse() : pts;
   }
   const wireMatCache = {};
   for (const w of hw.wires) {
-    const curve = new THREE.CatmullRomCurve3(route(w), false, 'catmullrom', 0.4);
+    const curve = roundedPath(route(w), 2.2);
     const col = w.color;
-    const m = (wireMatCache[col] ||= new THREE.MeshStandardMaterial({ color: col, roughness: 0.5, emissive: 0x000000 }));
-    const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, 28, w.kind === 'harness' ? 0.55 : 0.4, 6, false), m);
+    const m = (wireMatCache[col] ||= new THREE.MeshStandardMaterial({ color: col, roughness: 0.55, emissive: 0x000000 }));
+    const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, 64, w.kind === 'harness' ? 0.6 : 0.45, 8, false), m);
     mesh.userData = { net: w.net, a: w.a.split('.')[0], b: w.b.split('.')[0] };
     wireGroup.add(mesh); wires.push(mesh);
   }

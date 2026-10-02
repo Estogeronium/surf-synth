@@ -40,6 +40,7 @@ export function createInstrument({ canvas, values, onChange, onPower, onPartSele
   sun.shadow.radius = 7;
   sun.shadow.blurSamples = 16;
   sun.shadow.bias = -0.0004;
+  sun.shadow.normalBias = 0.02;
   scene.add(sun);
 
   const floor = new THREE.Mesh(
@@ -219,7 +220,7 @@ export function createInstrument({ canvas, values, onChange, onPower, onPartSele
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     const t = Math.tan(THREE.MathUtils.degToRad(CAMERA_FOV / 2));
-    const dist = Math.max((H * 1.5) / 2 / t, (W * 1.18) / 2 / t / camera.aspect);
+    const dist = Math.max((H * (wantInside ? 1.12 : 1.5)) / 2 / t, (W * (wantInside ? 1.08 : 1.18)) / 2 / t / camera.aspect);
     camera.position.set(0, 1.1, dist);
     camera.lookAt(0, -0.15, 0);
     camera.updateProjectionMatrix();
@@ -292,6 +293,7 @@ export function createInstrument({ canvas, values, onChange, onPower, onPartSele
   if (import.meta.env.DEV || location.search.includes('debug')) window.__dbg = { camera, controls, renderer, canvas, state: () => ({ flip, lidT, wantInside }) };
   function setView(mode) {
     wantInside = mode === 'inside';
+    resize();
     if (wantInside && !interior) {
       interior = createInterior(housingMat);
       interior.root.visible = false;

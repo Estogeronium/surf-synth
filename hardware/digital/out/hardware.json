@@ -1145,7 +1145,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#e8c534",
+   "color": "#ffd23f",
    "length": 19.0
   },
   {
@@ -1165,7 +1165,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#e8c534",
+   "color": "#ffd23f",
    "length": 20.3
   },
   {
@@ -1185,7 +1185,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#2a52b8",
+   "color": "#3a6ff0",
    "length": 21.7
   },
   {
@@ -1205,7 +1205,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#2a52b8",
+   "color": "#3a6ff0",
    "length": 54.8
   },
   {
@@ -1225,7 +1225,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#2e8b4a",
+   "color": "#27b36a",
    "length": 25.4
   },
   {
@@ -1245,7 +1245,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#2e8b4a",
+   "color": "#27b36a",
    "length": 50.9
   },
   {
@@ -1265,7 +1265,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#7a3fa0",
+   "color": "#8a5cf5",
    "length": 18.0
   },
   {
@@ -1285,7 +1285,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#7a3fa0",
+   "color": "#8a5cf5",
    "length": 61.8
   },
   {
@@ -1305,7 +1305,7 @@
     -16.6
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 24.5
   },
   {
@@ -1325,7 +1325,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 17.3
   },
   {
@@ -1345,7 +1345,7 @@
     -16.6
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 24.3
   },
   {
@@ -1365,7 +1365,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 10.3
   },
   {
@@ -1385,7 +1385,7 @@
     -16.6
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 24.9
   },
   {
@@ -1405,7 +1405,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 5.7
   },
   {
@@ -1425,7 +1425,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 10.2
   },
   {
@@ -1445,7 +1445,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 8.0
   },
   {
@@ -1465,7 +1465,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 7.6
   },
   {
@@ -1485,7 +1485,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 9.2
   },
   {
@@ -1505,7 +1505,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 7.6
   },
   {
@@ -1525,7 +1525,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 2.5
   },
   {
@@ -1545,7 +1545,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 2.5
   },
   {
@@ -1565,7 +1565,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 2.5
   },
   {
@@ -1585,7 +1585,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 9.2
   },
   {
@@ -1605,7 +1605,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 9.7
   },
   {
@@ -1625,7 +1625,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 10.2
   },
   {
@@ -1645,7 +1645,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 10.2
   },
   {
@@ -1665,7 +1665,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 15.2
   },
   {
@@ -1685,7 +1685,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 12.7
   },
   {
@@ -1705,7 +1705,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 20.7
   },
   {
@@ -1725,7 +1725,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#7a3fa0",
+   "color": "#8a5cf5",
    "length": 26.2
   },
   {
@@ -1745,7 +1745,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#2a52b8",
+   "color": "#3a6ff0",
    "length": 29.7
   },
   {
@@ -1765,7 +1765,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#e8c534",
+   "color": "#ffd23f",
    "length": 25.4
   },
   {
@@ -1805,7 +1805,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#f2f2f2",
+   "color": "#f7f7f4",
    "length": 35.6
   },
   {
@@ -1865,7 +1865,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#8a8d90",
+   "color": "#9aa0a3",
    "length": 34.2
   },
   {
@@ -1885,7 +1885,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#2e8b4a",
+   "color": "#27b36a",
    "length": 40.2
   },
   {
@@ -1905,7 +1905,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#00a79b",
+   "color": "#00cfc1",
    "length": 30.6
   },
   {
@@ -1925,7 +1925,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#e5782a",
+   "color": "#ff6a1a",
    "length": 36.1
   },
   {
@@ -1945,7 +1945,7 @@
     -8.0
    ],
    "kind": "harness",
-   "color": "#1d2022",
+   "color": "#26292b",
    "length": 76.1
   },
   {
@@ -1965,7 +1965,7 @@
     -8.0
    ],
    "kind": "harness",
-   "color": "#c0392b",
+   "color": "#e0452a",
    "length": 87.0
   },
   {
@@ -1985,7 +1985,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 15.8
   },
   {
@@ -2005,7 +2005,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 23.0
   },
   {
@@ -2025,7 +2025,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 2.5
   },
   {
@@ -2045,7 +2045,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 26.5
   },
   {
@@ -2065,7 +2065,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 10.2
   },
   {
@@ -2085,7 +2085,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 27.7
   },
   {
@@ -2105,7 +2105,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 26.0
   },
   {
@@ -2125,7 +2125,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#e08a00",
+   "color": "#ff8a1f",
    "length": 26.0
   },
   {
@@ -2145,7 +2145,7 @@
     -16.6
    ],
    "kind": "harness",
-   "color": "#c0392b",
+   "color": "#e0452a",
    "length": 59.5
   },
   {
@@ -2165,7 +2165,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#c0392b",
+   "color": "#e0452a",
    "length": 25.9
   },
   {
@@ -2185,7 +2185,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#c0392b",
+   "color": "#e0452a",
    "length": 7.6
   },
   {
@@ -2205,7 +2205,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#c0392b",
+   "color": "#e0452a",
    "length": 18.0
   },
   {
@@ -2225,7 +2225,7 @@
     -7.0
    ],
    "kind": "harness",
-   "color": "#c0392b",
+   "color": "#e0452a",
    "length": 48.4
   },
   {
@@ -2245,7 +2245,7 @@
     -16.6
    ],
    "kind": "jumper",
-   "color": "#c0392b",
+   "color": "#e0452a",
    "length": 61.1
   }
  ],

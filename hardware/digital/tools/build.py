@@ -98,10 +98,10 @@ for n, plist in nets.items():
         pads[(r, p)] = pad
 
 # ---- wires: connect every net's pads with a minimum spanning tree ----------------------------------------------------------
-NET_COLOR = {'GND': '#1d2022', 'V3': '#e08a00', 'V5': '#c0392b', 'V5IN': '#c0392b', 'VSYS': '#c0392b',
-             'I2S_DIN': '#2a52b8', 'I2S_BCLK': '#7a3fa0', 'I2S_LRC': '#e8c534', 'SPI_MISO': '#2e8b4a', 'SPI_MOSI': '#00a79b',
-             'SPI_SCK': '#e5782a', 'SPI_CS': '#8a8d90', 'LED_CTL': '#f2f2f2', 'SPK_P': '#c0392b', 'SPK_N': '#1d2022',
-             'ADC0': '#e8c534', 'ADC1': '#2a52b8', 'ADC2': '#2e8b4a', 'ADC3': '#7a3fa0'}
+NET_COLOR = {'GND': '#26292b', 'V3': '#ff8a1f', 'V5': '#e0452a', 'V5IN': '#e0452a', 'VSYS': '#e0452a',
+             'I2S_DIN': '#3a6ff0', 'I2S_BCLK': '#8a5cf5', 'I2S_LRC': '#ffd23f', 'SPI_MISO': '#27b36a', 'SPI_MOSI': '#00cfc1',
+             'SPI_SCK': '#ff6a1a', 'SPI_CS': '#9aa0a3', 'LED_CTL': '#f7f7f4', 'SPK_P': '#e0452a', 'SPK_N': '#26292b',
+             'ADC0': '#ffd23f', 'ADC1': '#3a6ff0', 'ADC2': '#27b36a', 'ADC3': '#8a5cf5'}
 board_parts = {'U1', 'U2', 'U3', 'D1', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'R1', 'R2', 'Q1'}
 def dist(a, b): return math.dist(a, b)
 wires = []
