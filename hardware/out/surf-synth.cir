@@ -1,0 +1,222 @@
+* Surf Synth (generated from the schematic)
+
+* ---- behavioural models (not manufacturer models) ----
+.subckt TL072 inp inn out vcc vee
+Rin inp inn 1e10
+Eg n1 0 value={2e5*(V(inp)-V(inn))}
+R1 n1 n2 1k
+C1 n2 0 {1/(6.283*1k*15)}
+Eo n3 0 value={ (V(vcc)+V(vee))/2 + (V(vcc)-V(vee)-3)/2*tanh((V(n2)-(V(vcc)+V(vee))/2)/((V(vcc)-V(vee)-3)/2)) }
+Ro n3 out 100
+.ends
+.subckt LM358 inp inn out vcc vee
+Rin inp inn 1e9
+Eg n1 0 value={1e5*(V(inp)-V(inn))}
+R1 n1 n2 1k
+C1 n2 0 {1/(6.283*1k*10)}
+Eo n3 0 value={ (V(vcc)+V(vee)-1.48)/2 + (V(vcc)-V(vee)-1.52)/2*tanh((V(n2)-(V(vcc)+V(vee)-1.48)/2)/((V(vcc)-V(vee)-1.52)/2)) }
+Ro n3 out 50
+.ends
+* OTA: gm = 19.2*Iabc, Iout = Iabc*tanh(Vd/(2Vt)); Iabc pin sits ~1.2 V above V-; buffer drops 1.2 V
+.subckt OTA inp inn iabc out bi bo vcc vee
+Vs iabc ia 0
+Dm ia n1 DI
+Vp n1 vee DC 0.6
+.model DI D(IS=1e-14 N=1)
+Rinp inp 0 1e9
+Rinn inn 0 1e9
+Gout 0 out value={ I(Vs)*tanh((V(inp)-V(inn))/0.0517) }
+Rbi bi 0 1e9
+Ebuf bx 0 value={V(bi)-1.2}
+Rbo bx bo 300
+.ends
+.model D4148 D(IS=2.5n N=1.8 RS=0.6 CJO=4p TT=12n)
+.model D5819 D(IS=1u N=1.1 RS=0.05 CJO=100p)
+.model DLED D(IS=1e-18 N=1.8 RS=5)
+.model DZQ D(IS=1e-14 BV=7.3 IBV=1m)
+.model Q2N3904 NPN(IS=6.7f BF=200 VAF=100 CJE=4p CJC=3p)
+.model adc1 adc_bridge(in_low=4.2 in_high=7.8)
+.model dff1 d_dff(clk_delay=100n set_delay=100n reset_delay=100n ic=0)
+.model dac1 dac_bridge(out_low=0 out_high=11.9)
+.model and2 d_and(rise_delay=100n fall_delay=100n)
+
+VJ1 N001 0 12.0
+DD1 N001 N002 D5819
+RSW1 N002 V12 0.02
+CC1 V12 0 220u
+CC2 V12 0 100n
+RR1 V12 A12 22
+CC3 A12 0 100u
+CC4 A12 0 100n
+RR2 A12 VB 2.2k
+RR3 VB 0 2.2k
+CC5 VB 0 220u
+RR4 A12 NZ 1k
+CC6 NZ 0 100u
+RR5 NZ QE 10k
+DQ1 0 qz DZQ
+Vnoise qz QE DC 0
+CC7 QE NIN 1u
+RR6 NIN VB 100k
+XU1A NIN INV1 W A12 0 TL072
+RR7 INV1 GX1 1k
+CC8 GX1 VB 47u
+RR8 W RFM 4.7k
+RRV1a INV1 INV1 50000
+RRV1b INV1 RFM 50000
+RR9 W PK 18k
+RR10 PK P1 11k
+CC9 P1 VB 100n
+RR11 PK P2 3.6k
+CC10 P2 VB 39n
+RR12 PK P3 750
+CC11 P3 VB 18n
+XU1B PK INV2 PN A12 0 TL072
+RR13 INV2 GX2 1k
+CC12 GX2 VB 47u
+RR14 PN INV2 15k
+CC13 A12 0 100n
+CC14 A12 0 100n
+RR32 A12 SA 91k
+RRV5a SB SURFW 5000
+RRV5b SURFW SA 5000
+RR33 SB 0 91k
+CC23 SURFW 0 10u
+RRV2a W WA 7000
+RRV2b WA VB 3000
+CC36 WA ACT 470n
+RR55 SURFW ACT 100k
+XU4A ACT VB CMP A12 0 LM358
+RR34 CK1 P1P 1Meg
+RR35 P1P VB 1Meg
+XU3A P1P T1 CK1 A12 0 LM358
+CC24 T1 0 4.7u
+DD2 CK1 H1 D4148
+RR36 H1 T1 180k
+RR37 T1 L1 390k
+RRV6Aa W1 W1 500000
+RRV6Ab W1 L1 500000
+DD3 W1 CK1 D4148
+RR38 CK2 P2P 1Meg
+RR39 P2P VB 1Meg
+XU3B P2P T2 CK2 A12 0 LM358
+CC25 T2 0 6.8u
+DD4 CK2 H2 D4148
+RR40 H2 T2 120k
+RR41 T2 L2 390k
+RRV6Ba W2 W2 500000
+RRV6Bb W2 L2 500000
+DD5 W2 CK2 D4148
+AU5lo [0] [lo_U5] adc1
+AU5d0 [CMP] [U5_d0] adc1
+AU5c0 [CK1] [U5_c0] adc1
+AU5f0 U5_d0 U5_c0 lo_U5 lo_U5 U5_q0 U5_qb0 dff1
+AU5q0 [U5_q0] [Q1] dac1
+RU5q0 Q1 0 1Meg
+AU5d1 [CMP] [U5_d1] adc1
+AU5c1 [CK2] [U5_c1] adc1
+AU5f1 U5_d1 U5_c1 lo_U5 lo_U5 U5_q1 U5_qb1 dff1
+AU5q1 [U5_q1] [Q2] dac1
+RU5q1 Q2 0 1Meg
+CC15 A12 0 100n
+AU9a0 [CK1] [U9_a0] adc1
+AU9b0 [Q1] [U9_b0] adc1
+AU9g0 [U9_a0 U9_b0] U9_y0 and2
+AU9y0 [U9_y0] [G1] dac1
+RU9y0 G1 0 1Meg
+AU9a1 [CK2] [U9_a1] adc1
+AU9b1 [Q2] [U9_b1] adc1
+AU9g1 [U9_a1 U9_b1] U9_y1 and2
+AU9y1 [U9_y1] [G2] dac1
+RU9y1 G2 0 1Meg
+CC37 A12 0 100n
+RR42 G1 T 47k
+RR43 G2 T 100k
+RR44 T 0 82k
+DD6 T NA D4148
+RR45 NA E 100k
+CC26 E 0 4.7u
+RR46 E 0 470k
+XU3C E VW VW A12 0 LM358
+RR47 VW FN 100k
+CC27 FN 0 4.7u
+XU3D FN FW FW A12 0 LM358
+RR52 VW QB 10k
+RR53 A12 QB 10Meg
+QQ2 LEDK QB 0 Q2N3904
+DD10 LEDA LEDK DLED
+RR54 V12 LEDA 820
+CC28 A12 0 100n
+XU4B VB SPARE SPARE A12 0 LM358
+CC29 A12 0 100n
+RR15 PN VP1 100k
+RR16 VP1 VB 1k
+RR17 VCFO VM1 100k
+RR18 VM1 VB 1k
+CC16 VCFN VB 2.2n
+RR19 VCFO 0 10k
+RR20 VCFO VP2 100k
+RR21 VP2 VB 1k
+RR22 VM2 VB 1k
+XU6A VP1 VM1 IC1 VCFN VCFN VCFO A12 0 OTA
+XU6B VP2 VM2 IC2 MIX 0 N009 A12 0 OTA
+CC17 W FIN 4.7n
+RR23 FIN VB 10k
+RR24 FIN VP3 100k
+RR25 VP3 VB 1k
+RR26 VM3 VB 1k
+XU7A VP3 VM3 IC3 MIX 0 N011 A12 0 OTA
+XU7B VB VB 0 N013 0 N014 A12 0 OTA
+RR31 TONW IC1 220k
+DD7 VW V1 D4148
+RR48 V1 IC1 18k
+DD8 VW V2 D4148
+RR49 V2 IC2 11k
+RR50 A12 IC2 470k
+DD9 FW V3 D4148
+RR51 V3 IC3 39k
+XU2A VB MIX MO A12 0 TL072
+RR27 MO MIX 15k
+CC18 MO MIX 100p
+XU2B VB SPARE2 SPARE2 A12 0 TL072
+RR29 A12 TOPT 27k
+RRV3a BOTT TONW 50000
+RRV3b TONW TOPT 50000
+RR30 BOTT 0 30k
+CC22 TONW 0 100n
+CC19 A12 0 100n
+CC20 A12 0 100n
+CC21 A12 0 100n
+CC30 MO VOLH 4.7u
+RRV4a 0 VOLW 8000
+RRV4b VOLW VOLH 2000
+BU8 U8_o 0 V = V(V12)/2 + 5*tanh(20*(V(VOLW)-V(0))/5)
+RU8o U8_o OUTA 1
+RU8i VOLW 0 50k
+RU8b1 V12 BYP 15k
+RU8b2 BYP 0 15k
+CC31 BYP 0 10u
+CC32 V12 0 100u
+CC33 V12 0 100n
+CC34 OUTA SPK 220u
+RSPK1 SPK 0 8
+RR28 OUTA ZOB 10
+CC35 ZOB 0 47n
+Rnc_N003 N003 0 1G
+Rnc_N004 N004 0 1G
+Rnc_N005 N005 0 1G
+Rnc_N006 N006 0 1G
+Rnc_N007 N007 0 1G
+Rnc_N008 N008 0 1G
+Rnc_N009 N009 0 1G
+Rnc_N010 N010 0 1G
+Rnc_N011 N011 0 1G
+Rnc_N012 N012 0 1G
+Rnc_N013 N013 0 1G
+Rnc_N014 N014 0 1G
+Rnc_N015 N015 0 1G
+Rnc_N016 N016 0 1G
+* Add your own analysis, e.g.:
+* .tran 20u 2
+* Noise: replace "DC 0" in Vnoise with a PWL/trnoise source (see tools/simrun.py).
+.end

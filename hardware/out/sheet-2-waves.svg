@@ -1,0 +1,383 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 1020" width="1560" height="1020" font-family="Helvetica, Arial, sans-serif"><rect width="1560" height="1020" fill="#fbfbf8"/><text x="16" y="24" font-size="15" font-weight="700" fill="#2b3033">Лист 2 · Генератор волн: случайные импульсы → огибающая</text><rect x="20" y="760" width="1520" height="240" rx="6" fill="none" stroke="#6d7377" stroke-width="0.8" stroke-dasharray="4 3"/><text x="30" y="776" font-size="11" font-weight="700" letter-spacing="1" fill="#6d7377">ЗАДЕРЖКА ПЕНЫ, СВЕТОДИОД ВОЛНЫ, ПИТАНИЕ МИКРОСХЕМ</text>
+<rect x="560" y="500" width="980" height="240" rx="6" fill="none" stroke="#6d7377" stroke-width="0.8" stroke-dasharray="4 3"/><text x="570" y="516" font-size="11" font-weight="700" letter-spacing="1" fill="#6d7377">ВЕНТИЛИ И (CD4081), СМЕШИВАНИЕ И ОГИБАЮЩАЯ ВОЛНЫ</text>
+<rect x="20" y="500" width="520" height="240" rx="6" fill="none" stroke="#6d7377" stroke-width="0.8" stroke-dasharray="4 3"/><text x="30" y="516" font-size="11" font-weight="700" letter-spacing="1" fill="#6d7377">ТРИГГЕРЫ: БИТ ИЗ ШУМА ЗАПОМИНАЕТСЯ ПО ФРОНТУ ЧАСОВ</text>
+<rect x="560" y="40" width="980" height="440" rx="6" fill="none" stroke="#6d7377" stroke-width="0.8" stroke-dasharray="4 3"/><text x="570" y="56" font-size="11" font-weight="700" letter-spacing="1" fill="#6d7377">ДВА АСИММЕТРИЧНЫХ МУЛЬТИВИБРАТОРА (TIDE)</text>
+<rect x="20" y="40" width="520" height="260" rx="6" fill="none" stroke="#6d7377" stroke-width="0.8" stroke-dasharray="4 3"/><text x="30" y="56" font-size="11" font-weight="700" letter-spacing="1" fill="#6d7377">КОМПАРАТОР ШУМА И УРОВЕНЬ «SURF»</text>
+<g transform="translate(80,110) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="80" y="101" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R32</text>
+<text x="80" y="130" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">91k</text>
+<polyline points="60,110 46,110" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="46" y1="110" x2="46" y2="102"/><line x1="38" y1="102" x2="54" y2="102"/></g><text x="46" y="97" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g><polyline points="100,110 106,106 113.2,106 113.2,114 106,114 100,110" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="117.2" y="113" text-anchor="start" font-size="9" fill="#2b3033">SA</text>
+<g transform="translate(230,130) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/><line x1="0" y1="-20" x2="0" y2="-12"/><polyline points="-3.5,-6 0,-12 3.5,-6" fill="none"/></g>
+<text x="230" y="152" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">RV5</text>
+<text x="230" y="163" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">10k lin</text>
+<g><polyline points="210,130 204,126 196.8,126 196.8,134 204,134 210,130" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="192.8" y="133" text-anchor="end" font-size="9" fill="#2b3033">SB</text>
+<g><polyline points="230,110 236,106 243.2,106 243.2,114 236,114 230,110" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="247.2" y="113" text-anchor="start" font-size="9" fill="#2b3033">SURFW</text>
+<g><polyline points="250,130 256,126 263.2,126 263.2,134 256,134 250,130" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="267.2" y="133" text-anchor="start" font-size="9" fill="#2b3033">SA</text>
+<g transform="translate(380,110) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="380" y="101" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R33</text>
+<text x="380" y="130" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">91k</text>
+<g><polyline points="360,110 354,106 346.8,106 346.8,114 354,114 360,110" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="342.8" y="113" text-anchor="end" font-size="9" fill="#2b3033">SB</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="400" y1="110" x2="400" y2="116"/><line x1="391" y1="116" x2="409" y2="116"/><line x1="394.5" y1="120" x2="405.5" y2="120"/><line x1="398" y1="124" x2="402" y2="124"/></g>
+<g transform="translate(470,150) rotate(90)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><path d="M 4,-8 Q 1,0 4,8"/><line x1="3" y1="0" x2="20" y2="0"/><text x="-13" y="-6" font-size="9" stroke="none" fill="#2b3033">+</text></g>
+<text x="483" y="148" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">C23</text>
+<text x="483" y="159" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">10µ</text>
+<g><polyline points="470,130 476,126 483.2,126 483.2,134 476,134 470,130" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="487.2" y="133" text-anchor="start" font-size="9" fill="#2b3033">SURFW</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="470" y1="170" x2="470" y2="176"/><line x1="461" y1="176" x2="479" y2="176"/><line x1="464.5" y1="180" x2="475.5" y2="180"/><line x1="468" y1="184" x2="472" y2="184"/></g>
+<g transform="translate(90,250) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/><line x1="0" y1="-20" x2="0" y2="-12"/><polyline points="-3.5,-6 0,-12 3.5,-6" fill="none"/><line x1="-9" y1="-13" x2="9" y2="-5"/></g>
+<text x="90" y="272" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">RV2</text>
+<text x="90" y="283" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">10k</text>
+<g><polyline points="70,250 64,246 56.8,246 56.8,254 64,254 70,250" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="52.8" y="253" text-anchor="end" font-size="9" fill="#2b3033">W</text>
+<g><polyline points="90,230 96,226 103.2,226 103.2,234 96,234 90,230" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="107.2" y="233" text-anchor="start" font-size="9" fill="#2b3033">WA</text>
+<polyline points="110,250 124,250" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="124" y1="250" x2="124" y2="242"/><line x1="116" y1="242" x2="132" y2="242"/></g><text x="124" y="237" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">VB</text>
+<g transform="translate(230,250) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><line x1="3" y1="-8" x2="3" y2="8"/><line x1="3" y1="0" x2="20" y2="0"/></g>
+<text x="230" y="236" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">C36</text>
+<text x="230" y="269" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">470n</text>
+<g><polyline points="210,250 204,246 196.8,246 196.8,254 204,254 210,250" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="192.8" y="253" text-anchor="end" font-size="9" fill="#2b3033">WA</text>
+<g><polyline points="250,250 256,246 263.2,246 263.2,254 256,254 250,250" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="267.2" y="253" text-anchor="start" font-size="9" fill="#2b3033">ACT</text>
+<g transform="translate(230,190) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="230" y="181" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R55</text>
+<text x="230" y="210" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">100k</text>
+<g><polyline points="210,190 204,186 196.8,186 196.8,194 204,194 210,190" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="192.8" y="193" text-anchor="end" font-size="9" fill="#2b3033">SURFW</text>
+<g><polyline points="250,190 256,186 263.2,186 263.2,194 256,194 250,190" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="267.2" y="193" text-anchor="start" font-size="9" fill="#2b3033">ACT</text>
+<g transform="translate(420,240) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="-18,-22 -18,22 26,0" fill="none"/><line x1="-30" y1="-10" x2="-18" y2="-10"/><line x1="-30" y1="10" x2="-18" y2="10"/><line x1="26" y1="0" x2="30" y2="0"/><text x="-15" y="-6.5" font-size="11" stroke="none" fill="#2b3033">+</text><text x="-15" y="14" font-size="11" stroke="none" fill="#2b3033">&#8722;</text></g>
+<text x="418" y="212" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U4A</text>
+<text x="418" y="278" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">LM358</text>
+<text x="387" y="226" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">3</text>
+<text x="387" y="262" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">2</text>
+<text x="453" y="236" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">1</text>
+<g><polyline points="390,230 384,226 376.8,226 376.8,234 384,234 390,230" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="372.8" y="233" text-anchor="end" font-size="9" fill="#2b3033">ACT</text>
+<polyline points="390,250 376,250" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="376" y1="250" x2="376" y2="242"/><line x1="368" y1="242" x2="384" y2="242"/></g><text x="376" y="237" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">VB</text>
+<g><polyline points="450,240 456,236 463.2,236 463.2,244 456,244 450,240" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="467.2" y="243" text-anchor="start" font-size="9" fill="#2b3033">CMP</text>
+<text x="36" y="288" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">W через C36 (убирает дрейф), к нему добавляется смещение R55 от Surf: вероятность «1» от 1 % до 99 %. RV2 — масштаб шума.</text>
+<g transform="translate(640,110) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="640" y="101" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R34</text>
+<text x="640" y="130" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1M</text>
+<g><polyline points="620,110 614,106 606.8,106 606.8,114 614,114 620,110" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="113" text-anchor="end" font-size="9" fill="#2b3033">CK1</text>
+<g><polyline points="660,110 666,106 673.2,106 673.2,114 666,114 660,110" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="677.2" y="113" text-anchor="start" font-size="9" fill="#2b3033">P1P</text>
+<g transform="translate(820,110) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="820" y="101" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R35</text>
+<text x="820" y="130" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1M</text>
+<g><polyline points="800,110 794,106 786.8,106 786.8,114 794,114 800,110" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="782.8" y="113" text-anchor="end" font-size="9" fill="#2b3033">P1P</text>
+<polyline points="840,110 854,110" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="854" y1="110" x2="854" y2="102"/><line x1="846" y1="102" x2="862" y2="102"/></g><text x="854" y="97" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">VB</text>
+<g transform="translate(1010,150) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="-18,-22 -18,22 26,0" fill="none"/><line x1="-30" y1="-10" x2="-18" y2="-10"/><line x1="-30" y1="10" x2="-18" y2="10"/><line x1="26" y1="0" x2="30" y2="0"/><text x="-15" y="-6.5" font-size="11" stroke="none" fill="#2b3033">+</text><text x="-15" y="14" font-size="11" stroke="none" fill="#2b3033">&#8722;</text></g>
+<text x="1008" y="122" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U3A</text>
+<text x="1008" y="188" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">LM324</text>
+<text x="977" y="136" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">3</text>
+<text x="977" y="172" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">2</text>
+<text x="1043" y="146" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">1</text>
+<g><polyline points="980,140 974,136 966.8,136 966.8,144 974,144 980,140" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="962.8" y="143" text-anchor="end" font-size="9" fill="#2b3033">P1P</text>
+<g><polyline points="980,160 974,156 966.8,156 966.8,164 974,164 980,160" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="962.8" y="163" text-anchor="end" font-size="9" fill="#2b3033">T1</text>
+<g><polyline points="1040,150 1046,146 1053.2,146 1053.2,154 1046,154 1040,150" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1057.2" y="153" text-anchor="start" font-size="9" fill="#2b3033">CK1</text>
+<g transform="translate(1160,110) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><line x1="3" y1="-8" x2="3" y2="8"/><line x1="3" y1="0" x2="20" y2="0"/></g>
+<text x="1160" y="96" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">C24</text>
+<text x="1160" y="129" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">4.7µ</text>
+<g><polyline points="1140,110 1134,106 1126.8,106 1126.8,114 1134,114 1140,110" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1122.8" y="113" text-anchor="end" font-size="9" fill="#2b3033">T1</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1180" y1="110" x2="1180" y2="116"/><line x1="1171" y1="116" x2="1189" y2="116"/><line x1="1174.5" y1="120" x2="1185.5" y2="120"/><line x1="1178" y1="124" x2="1182" y2="124"/></g>
+<g transform="translate(640,200) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-6" y2="0"/><polygon points="-6,-7 -6,7 6,0" fill="none"/><line x1="6" y1="-7" x2="6" y2="7"/><line x1="6" y1="0" x2="20" y2="0"/></g>
+<text x="640" y="188" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">D2</text>
+<text x="640" y="219" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1N4148</text>
+<g><polyline points="620,200 614,196 606.8,196 606.8,204 614,204 620,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="203" text-anchor="end" font-size="9" fill="#2b3033">CK1</text>
+<g><polyline points="660,200 666,196 673.2,196 673.2,204 666,204 660,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="677.2" y="203" text-anchor="start" font-size="9" fill="#2b3033">H1</text>
+<g transform="translate(780,200) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="780" y="191" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R36</text>
+<text x="780" y="220" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">180k</text>
+<g><polyline points="760,200 754,196 746.8,196 746.8,204 754,204 760,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="742.8" y="203" text-anchor="end" font-size="9" fill="#2b3033">H1</text>
+<g><polyline points="800,200 806,196 813.2,196 813.2,204 806,204 800,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="817.2" y="203" text-anchor="start" font-size="9" fill="#2b3033">T1</text>
+<g transform="translate(640,270) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="640" y="261" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R37</text>
+<text x="640" y="290" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">390k</text>
+<g><polyline points="620,270 614,266 606.8,266 606.8,274 614,274 620,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="273" text-anchor="end" font-size="9" fill="#2b3033">T1</text>
+<g><polyline points="660,270 666,266 673.2,266 673.2,274 666,274 660,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="677.2" y="273" text-anchor="start" font-size="9" fill="#2b3033">L1</text>
+<g transform="translate(830,290) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/><line x1="0" y1="-20" x2="0" y2="-12"/><polyline points="-3.5,-6 0,-12 3.5,-6" fill="none"/></g>
+<text x="830" y="312" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">RV6A</text>
+<text x="830" y="323" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1M (Tide A)</text>
+<g><polyline points="810,290 804,286 796.8,286 796.8,294 804,294 810,290" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="792.8" y="293" text-anchor="end" font-size="9" fill="#2b3033">W1</text>
+<g><polyline points="830,270 836,266 843.2,266 843.2,274 836,274 830,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="847.2" y="273" text-anchor="start" font-size="9" fill="#2b3033">W1</text>
+<g><polyline points="850,290 856,286 863.2,286 863.2,294 856,294 850,290" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="867.2" y="293" text-anchor="start" font-size="9" fill="#2b3033">L1</text>
+<g transform="translate(950,270) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-6" y2="0"/><polygon points="-6,-7 -6,7 6,0" fill="none"/><line x1="6" y1="-7" x2="6" y2="7"/><line x1="6" y1="0" x2="20" y2="0"/></g>
+<text x="950" y="258" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">D3</text>
+<text x="950" y="289" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1N4148</text>
+<g><polyline points="930,270 924,266 916.8,266 916.8,274 924,274 930,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="912.8" y="273" text-anchor="end" font-size="9" fill="#2b3033">W1</text>
+<g><polyline points="970,270 976,266 983.2,266 983.2,274 976,274 970,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="987.2" y="273" text-anchor="start" font-size="9" fill="#2b3033">CK1</text>
+<text x="1050" y="215" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">T = t_имп(R36·C24) + t_пауз((R37+RV6A)·C24)</text>
+<g transform="translate(640,350) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="640" y="341" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R38</text>
+<text x="640" y="370" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1M</text>
+<g><polyline points="620,350 614,346 606.8,346 606.8,354 614,354 620,350" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="353" text-anchor="end" font-size="9" fill="#2b3033">CK2</text>
+<g><polyline points="660,350 666,346 673.2,346 673.2,354 666,354 660,350" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="677.2" y="353" text-anchor="start" font-size="9" fill="#2b3033">P2P</text>
+<g transform="translate(820,350) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="820" y="341" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R39</text>
+<text x="820" y="370" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1M</text>
+<g><polyline points="800,350 794,346 786.8,346 786.8,354 794,354 800,350" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="782.8" y="353" text-anchor="end" font-size="9" fill="#2b3033">P2P</text>
+<polyline points="840,350 854,350" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="854" y1="350" x2="854" y2="342"/><line x1="846" y1="342" x2="862" y2="342"/></g><text x="854" y="337" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">VB</text>
+<g transform="translate(1010,390) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="-18,-22 -18,22 26,0" fill="none"/><line x1="-30" y1="-10" x2="-18" y2="-10"/><line x1="-30" y1="10" x2="-18" y2="10"/><line x1="26" y1="0" x2="30" y2="0"/><text x="-15" y="-6.5" font-size="11" stroke="none" fill="#2b3033">+</text><text x="-15" y="14" font-size="11" stroke="none" fill="#2b3033">&#8722;</text></g>
+<text x="1008" y="362" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U3B</text>
+<text x="1008" y="428" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">LM324</text>
+<text x="977" y="376" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">5</text>
+<text x="977" y="412" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">6</text>
+<text x="1043" y="386" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">7</text>
+<g><polyline points="980,380 974,376 966.8,376 966.8,384 974,384 980,380" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="962.8" y="383" text-anchor="end" font-size="9" fill="#2b3033">P2P</text>
+<g><polyline points="980,400 974,396 966.8,396 966.8,404 974,404 980,400" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="962.8" y="403" text-anchor="end" font-size="9" fill="#2b3033">T2</text>
+<g><polyline points="1040,390 1046,386 1053.2,386 1053.2,394 1046,394 1040,390" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1057.2" y="393" text-anchor="start" font-size="9" fill="#2b3033">CK2</text>
+<g transform="translate(1160,350) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><line x1="3" y1="-8" x2="3" y2="8"/><line x1="3" y1="0" x2="20" y2="0"/></g>
+<text x="1160" y="336" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">C25</text>
+<text x="1160" y="369" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">6.8µ</text>
+<g><polyline points="1140,350 1134,346 1126.8,346 1126.8,354 1134,354 1140,350" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1122.8" y="353" text-anchor="end" font-size="9" fill="#2b3033">T2</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1180" y1="350" x2="1180" y2="356"/><line x1="1171" y1="356" x2="1189" y2="356"/><line x1="1174.5" y1="360" x2="1185.5" y2="360"/><line x1="1178" y1="364" x2="1182" y2="364"/></g>
+<g transform="translate(1260,200) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-6" y2="0"/><polygon points="-6,-7 -6,7 6,0" fill="none"/><line x1="6" y1="-7" x2="6" y2="7"/><line x1="6" y1="0" x2="20" y2="0"/></g>
+<text x="1260" y="188" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">D4</text>
+<text x="1260" y="219" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1N4148</text>
+<g><polyline points="1240,200 1234,196 1226.8,196 1226.8,204 1234,204 1240,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1222.8" y="203" text-anchor="end" font-size="9" fill="#2b3033">CK2</text>
+<g><polyline points="1280,200 1286,196 1293.2,196 1293.2,204 1286,204 1280,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1297.2" y="203" text-anchor="start" font-size="9" fill="#2b3033">H2</text>
+<g transform="translate(1400,200) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="1400" y="191" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R40</text>
+<text x="1400" y="220" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">120k</text>
+<g><polyline points="1380,200 1374,196 1366.8,196 1366.8,204 1374,204 1380,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1362.8" y="203" text-anchor="end" font-size="9" fill="#2b3033">H2</text>
+<g><polyline points="1420,200 1426,196 1433.2,196 1433.2,204 1426,204 1420,200" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1437.2" y="203" text-anchor="start" font-size="9" fill="#2b3033">T2</text>
+<g transform="translate(1260,270) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="1260" y="261" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R41</text>
+<text x="1260" y="290" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">390k</text>
+<g><polyline points="1240,270 1234,266 1226.8,266 1226.8,274 1234,274 1240,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1222.8" y="273" text-anchor="end" font-size="9" fill="#2b3033">T2</text>
+<g><polyline points="1280,270 1286,266 1293.2,266 1293.2,274 1286,274 1280,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1297.2" y="273" text-anchor="start" font-size="9" fill="#2b3033">L2</text>
+<g transform="translate(1450,290) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/><line x1="0" y1="-20" x2="0" y2="-12"/><polyline points="-3.5,-6 0,-12 3.5,-6" fill="none"/></g>
+<text x="1450" y="312" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">RV6B</text>
+<text x="1450" y="323" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1M (Tide B)</text>
+<g><polyline points="1430,290 1424,286 1416.8,286 1416.8,294 1424,294 1430,290" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1412.8" y="293" text-anchor="end" font-size="9" fill="#2b3033">W2</text>
+<g><polyline points="1450,270 1456,266 1463.2,266 1463.2,274 1456,274 1450,270" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1467.2" y="273" text-anchor="start" font-size="9" fill="#2b3033">W2</text>
+<g><polyline points="1470,290 1476,286 1483.2,286 1483.2,294 1476,294 1470,290" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1487.2" y="293" text-anchor="start" font-size="9" fill="#2b3033">L2</text>
+<g transform="translate(1260,350) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-6" y2="0"/><polygon points="-6,-7 -6,7 6,0" fill="none"/><line x1="6" y1="-7" x2="6" y2="7"/><line x1="6" y1="0" x2="20" y2="0"/></g>
+<text x="1260" y="338" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">D5</text>
+<text x="1260" y="369" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1N4148</text>
+<g><polyline points="1240,350 1234,346 1226.8,346 1226.8,354 1234,354 1240,350" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1222.8" y="353" text-anchor="end" font-size="9" fill="#2b3033">W2</text>
+<g><polyline points="1280,350 1286,346 1293.2,346 1293.2,354 1286,354 1280,350" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1297.2" y="353" text-anchor="start" font-size="9" fill="#2b3033">CK2</text>
+<text x="1050" y="440" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">RV6 — сдвоенный потенциометр 1 МОм (линейный), вращение по часовой = чаще.</text>
+<g transform="translate(280,640) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="-65.0" y="-80.0" width="130" height="160" fill="#fff"/><line x1="-85.0" y1="-60.0" x2="-65.0" y2="-60.0"/><line x1="-85.0" y1="-40.0" x2="-65.0" y2="-40.0"/><line x1="-85.0" y1="-20.0" x2="-65.0" y2="-20.0"/><line x1="-85.0" y1="0.0" x2="-65.0" y2="0.0"/><line x1="-85.0" y1="20.0" x2="-65.0" y2="20.0"/><line x1="-85.0" y1="40.0" x2="-65.0" y2="40.0"/><line x1="-85.0" y1="60.0" x2="-65.0" y2="60.0"/><line x1="65.0" y1="-60.0" x2="85.0" y2="-60.0"/><line x1="65.0" y1="-40.0" x2="85.0" y2="-40.0"/><line x1="65.0" y1="-20.0" x2="85.0" y2="-20.0"/><line x1="65.0" y1="0.0" x2="85.0" y2="0.0"/><line x1="65.0" y1="20.0" x2="85.0" y2="20.0"/><line x1="65.0" y1="40.0" x2="85.0" y2="40.0"/><line x1="65.0" y1="60.0" x2="85.0" y2="60.0"/></g>
+<text x="220.0" y="583.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">Q1</text>
+<text x="198.0" y="577.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">1</text>
+<text x="220.0" y="603.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">Q̄1</text>
+<text x="198.0" y="597.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">2</text>
+<text x="220.0" y="623.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">CLK1</text>
+<text x="198.0" y="617.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">3</text>
+<text x="220.0" y="643.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">RESET1</text>
+<text x="198.0" y="637.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">4</text>
+<text x="220.0" y="663.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">D1</text>
+<text x="198.0" y="657.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">5</text>
+<text x="220.0" y="683.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">SET1</text>
+<text x="198.0" y="677.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">6</text>
+<text x="220.0" y="703.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">VSS</text>
+<text x="198.0" y="697.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">7</text>
+<text x="340.0" y="583.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">VDD</text>
+<text x="362.0" y="577.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">14</text>
+<text x="340.0" y="603.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">Q2</text>
+<text x="362.0" y="597.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">13</text>
+<text x="340.0" y="623.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">Q̄2</text>
+<text x="362.0" y="617.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">12</text>
+<text x="340.0" y="643.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">CLK2</text>
+<text x="362.0" y="637.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">11</text>
+<text x="340.0" y="663.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">RESET2</text>
+<text x="362.0" y="657.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">10</text>
+<text x="340.0" y="683.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">D2</text>
+<text x="362.0" y="677.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">9</text>
+<text x="340.0" y="703.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">SET2</text>
+<text x="362.0" y="697.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">8</text>
+<text x="280" y="554.0" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U5  CD4013</text>
+<g><polyline points="195,580 189,576 181.8,576 181.8,584 189,584 195,580" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="177.8" y="583" text-anchor="end" font-size="9" fill="#2b3033">Q1</text>
+<g stroke="#6d7377" stroke-width="1.2"><line x1="191" y1="596" x2="199" y2="604"/><line x1="191" y1="604" x2="199" y2="596"/></g>
+<g><polyline points="195,620 189,616 181.8,616 181.8,624 189,624 195,620" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="177.8" y="623" text-anchor="end" font-size="9" fill="#2b3033">CK1</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="195" y1="640" x2="195" y2="646"/><line x1="186" y1="646" x2="204" y2="646"/><line x1="189.5" y1="650" x2="200.5" y2="650"/><line x1="193" y1="654" x2="197" y2="654"/></g>
+<g><polyline points="195,660 189,656 181.8,656 181.8,664 189,664 195,660" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="177.8" y="663" text-anchor="end" font-size="9" fill="#2b3033">CMP</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="195" y1="680" x2="195" y2="686"/><line x1="186" y1="686" x2="204" y2="686"/><line x1="189.5" y1="690" x2="200.5" y2="690"/><line x1="193" y1="694" x2="197" y2="694"/></g>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="195" y1="700" x2="195" y2="706"/><line x1="186" y1="706" x2="204" y2="706"/><line x1="189.5" y1="710" x2="200.5" y2="710"/><line x1="193" y1="714" x2="197" y2="714"/></g>
+<polyline points="365,580 379,580" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="379" y1="580" x2="379" y2="572"/><line x1="371" y1="572" x2="387" y2="572"/></g><text x="379" y="567" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g><polyline points="365,600 371,596 378.2,596 378.2,604 371,604 365,600" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="382.2" y="603" text-anchor="start" font-size="9" fill="#2b3033">Q2</text>
+<g stroke="#6d7377" stroke-width="1.2"><line x1="361" y1="616" x2="369" y2="624"/><line x1="361" y1="624" x2="369" y2="616"/></g>
+<g><polyline points="365,640 371,636 378.2,636 378.2,644 371,644 365,640" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="382.2" y="643" text-anchor="start" font-size="9" fill="#2b3033">CK2</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="365" y1="660" x2="365" y2="666"/><line x1="356" y1="666" x2="374" y2="666"/><line x1="359.5" y1="670" x2="370.5" y2="670"/><line x1="363" y1="674" x2="367" y2="674"/></g>
+<g><polyline points="365,680 371,676 378.2,676 378.2,684 371,684 365,680" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="382.2" y="683" text-anchor="start" font-size="9" fill="#2b3033">CMP</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="365" y1="700" x2="365" y2="706"/><line x1="356" y1="706" x2="374" y2="706"/><line x1="359.5" y1="710" x2="370.5" y2="710"/><line x1="363" y1="714" x2="367" y2="714"/></g>
+<g transform="translate(430,560) rotate(90)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><line x1="3" y1="-8" x2="3" y2="8"/><line x1="3" y1="0" x2="20" y2="0"/></g>
+<text x="443" y="558" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">C15</text>
+<text x="443" y="569" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">100n</text>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="430" y1="540" x2="430" y2="532"/><line x1="422" y1="532" x2="438" y2="532"/></g><text x="430" y="527" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="430" y1="580" x2="430" y2="586"/><line x1="421" y1="586" x2="439" y2="586"/><line x1="424.5" y1="590" x2="435.5" y2="590"/><line x1="428" y1="594" x2="432" y2="594"/></g>
+<g transform="translate(700,640) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="-60.0" y="-80.0" width="120" height="160" fill="#fff"/><line x1="-80.0" y1="-60.0" x2="-60.0" y2="-60.0"/><line x1="-80.0" y1="-40.0" x2="-60.0" y2="-40.0"/><line x1="-80.0" y1="-20.0" x2="-60.0" y2="-20.0"/><line x1="-80.0" y1="0.0" x2="-60.0" y2="0.0"/><line x1="-80.0" y1="20.0" x2="-60.0" y2="20.0"/><line x1="-80.0" y1="40.0" x2="-60.0" y2="40.0"/><line x1="-80.0" y1="60.0" x2="-60.0" y2="60.0"/><line x1="60.0" y1="-60.0" x2="80.0" y2="-60.0"/><line x1="60.0" y1="-40.0" x2="80.0" y2="-40.0"/><line x1="60.0" y1="-20.0" x2="80.0" y2="-20.0"/><line x1="60.0" y1="0.0" x2="80.0" y2="0.0"/><line x1="60.0" y1="20.0" x2="80.0" y2="20.0"/><line x1="60.0" y1="40.0" x2="80.0" y2="40.0"/><line x1="60.0" y1="60.0" x2="80.0" y2="60.0"/></g>
+<text x="645.0" y="583.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">A</text>
+<text x="623.0" y="577.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">1</text>
+<text x="645.0" y="603.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">B</text>
+<text x="623.0" y="597.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">2</text>
+<text x="645.0" y="623.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">J = A·B</text>
+<text x="623.0" y="617.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">3</text>
+<text x="645.0" y="643.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">K = C·D</text>
+<text x="623.0" y="637.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">4</text>
+<text x="645.0" y="663.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">C</text>
+<text x="623.0" y="657.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">5</text>
+<text x="645.0" y="683.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">D</text>
+<text x="623.0" y="677.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">6</text>
+<text x="645.0" y="703.0" font-size="8.5" font-weight="400" text-anchor="start" fill="#2b3033">VSS</text>
+<text x="623.0" y="697.0" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">7</text>
+<text x="755.0" y="583.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">VDD</text>
+<text x="777.0" y="577.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">14</text>
+<text x="755.0" y="603.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">H</text>
+<text x="777.0" y="597.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">13</text>
+<text x="755.0" y="623.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">G</text>
+<text x="777.0" y="617.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">12</text>
+<text x="755.0" y="643.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">M</text>
+<text x="777.0" y="637.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">11</text>
+<text x="755.0" y="663.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">L</text>
+<text x="777.0" y="657.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">10</text>
+<text x="755.0" y="683.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">F</text>
+<text x="777.0" y="677.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">9</text>
+<text x="755.0" y="703.0" font-size="8.5" font-weight="400" text-anchor="end" fill="#2b3033">E</text>
+<text x="777.0" y="697.0" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">8</text>
+<text x="700" y="554.0" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U9  CD4081</text>
+<g><polyline points="620,580 614,576 606.8,576 606.8,584 614,584 620,580" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="583" text-anchor="end" font-size="9" fill="#2b3033">CK1</text>
+<g><polyline points="620,600 614,596 606.8,596 606.8,604 614,604 620,600" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="603" text-anchor="end" font-size="9" fill="#2b3033">Q1</text>
+<g><polyline points="620,620 614,616 606.8,616 606.8,624 614,624 620,620" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="623" text-anchor="end" font-size="9" fill="#2b3033">G1</text>
+<g><polyline points="620,640 614,636 606.8,636 606.8,644 614,644 620,640" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="643" text-anchor="end" font-size="9" fill="#2b3033">G2</text>
+<g><polyline points="620,660 614,656 606.8,656 606.8,664 614,664 620,660" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="663" text-anchor="end" font-size="9" fill="#2b3033">CK2</text>
+<g><polyline points="620,680 614,676 606.8,676 606.8,684 614,684 620,680" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="602.8" y="683" text-anchor="end" font-size="9" fill="#2b3033">Q2</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="620" y1="700" x2="620" y2="706"/><line x1="611" y1="706" x2="629" y2="706"/><line x1="614.5" y1="710" x2="625.5" y2="710"/><line x1="618" y1="714" x2="622" y2="714"/></g>
+<polyline points="780,580 794,580" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="794" y1="580" x2="794" y2="572"/><line x1="786" y1="572" x2="802" y2="572"/></g><text x="794" y="567" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="780" y1="600" x2="780" y2="606"/><line x1="771" y1="606" x2="789" y2="606"/><line x1="774.5" y1="610" x2="785.5" y2="610"/><line x1="778" y1="614" x2="782" y2="614"/></g>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="780" y1="620" x2="780" y2="626"/><line x1="771" y1="626" x2="789" y2="626"/><line x1="774.5" y1="630" x2="785.5" y2="630"/><line x1="778" y1="634" x2="782" y2="634"/></g>
+<g stroke="#6d7377" stroke-width="1.2"><line x1="776" y1="636" x2="784" y2="644"/><line x1="776" y1="644" x2="784" y2="636"/></g>
+<g stroke="#6d7377" stroke-width="1.2"><line x1="776" y1="656" x2="784" y2="664"/><line x1="776" y1="664" x2="784" y2="656"/></g>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="780" y1="680" x2="780" y2="686"/><line x1="771" y1="686" x2="789" y2="686"/><line x1="774.5" y1="690" x2="785.5" y2="690"/><line x1="778" y1="694" x2="782" y2="694"/></g>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="780" y1="700" x2="780" y2="706"/><line x1="771" y1="706" x2="789" y2="706"/><line x1="774.5" y1="710" x2="785.5" y2="710"/><line x1="778" y1="714" x2="782" y2="714"/></g>
+<g transform="translate(830,570) rotate(90)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><line x1="3" y1="-8" x2="3" y2="8"/><line x1="3" y1="0" x2="20" y2="0"/></g>
+<text x="843" y="568" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">C37</text>
+<text x="843" y="579" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">100n</text>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="830" y1="550" x2="830" y2="542"/><line x1="822" y1="542" x2="838" y2="542"/></g><text x="830" y="537" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="830" y1="590" x2="830" y2="596"/><line x1="821" y1="596" x2="839" y2="596"/><line x1="824.5" y1="600" x2="835.5" y2="600"/><line x1="828" y1="604" x2="832" y2="604"/></g>
+<g transform="translate(960,570) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="960" y="561" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R42</text>
+<text x="960" y="590" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">47k</text>
+<g><polyline points="940,570 934,566 926.8,566 926.8,574 934,574 940,570" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="922.8" y="573" text-anchor="end" font-size="9" fill="#2b3033">G1</text>
+<g><polyline points="980,570 986,566 993.2,566 993.2,574 986,574 980,570" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="997.2" y="573" text-anchor="start" font-size="9" fill="#2b3033">T</text>
+<g transform="translate(960,640) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="960" y="631" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R43</text>
+<text x="960" y="660" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">100k</text>
+<g><polyline points="940,640 934,636 926.8,636 926.8,644 934,644 940,640" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="922.8" y="643" text-anchor="end" font-size="9" fill="#2b3033">G2</text>
+<g><polyline points="980,640 986,636 993.2,636 993.2,644 986,644 980,640" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="997.2" y="643" text-anchor="start" font-size="9" fill="#2b3033">T</text>
+<g transform="translate(960,700) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="960" y="691" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R44</text>
+<text x="960" y="720" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">82k</text>
+<g><polyline points="940,700 934,696 926.8,696 926.8,704 934,704 940,700" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="922.8" y="703" text-anchor="end" font-size="9" fill="#2b3033">T</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="980" y1="700" x2="980" y2="706"/><line x1="971" y1="706" x2="989" y2="706"/><line x1="974.5" y1="710" x2="985.5" y2="710"/><line x1="978" y1="714" x2="982" y2="714"/></g>
+<g transform="translate(1110,590) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-6" y2="0"/><polygon points="-6,-7 -6,7 6,0" fill="none"/><line x1="6" y1="-7" x2="6" y2="7"/><line x1="6" y1="0" x2="20" y2="0"/></g>
+<text x="1110" y="578" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">D6</text>
+<text x="1110" y="609" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">1N4148</text>
+<g><polyline points="1090,590 1084,586 1076.8,586 1076.8,594 1084,594 1090,590" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1072.8" y="593" text-anchor="end" font-size="9" fill="#2b3033">T</text>
+<g><polyline points="1130,590 1136,586 1143.2,586 1143.2,594 1136,594 1130,590" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1147.2" y="593" text-anchor="start" font-size="9" fill="#2b3033">NA</text>
+<g transform="translate(1230,590) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="1230" y="581" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R45</text>
+<text x="1230" y="610" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">100k</text>
+<g><polyline points="1210,590 1204,586 1196.8,586 1196.8,594 1204,594 1210,590" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1192.8" y="593" text-anchor="end" font-size="9" fill="#2b3033">NA</text>
+<g><polyline points="1250,590 1256,586 1263.2,586 1263.2,594 1256,594 1250,590" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1267.2" y="593" text-anchor="start" font-size="9" fill="#2b3033">E</text>
+<g transform="translate(1320,640) rotate(90)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><path d="M 4,-8 Q 1,0 4,8"/><line x1="3" y1="0" x2="20" y2="0"/><text x="-13" y="-6" font-size="9" stroke="none" fill="#2b3033">+</text></g>
+<text x="1333" y="638" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">C26</text>
+<text x="1333" y="649" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">4.7µ</text>
+<g><polyline points="1320,620 1326,616 1333.2,616 1333.2,624 1326,624 1320,620" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1337.2" y="623" text-anchor="start" font-size="9" fill="#2b3033">E</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1320" y1="660" x2="1320" y2="666"/><line x1="1311" y1="666" x2="1329" y2="666"/><line x1="1314.5" y1="670" x2="1325.5" y2="670"/><line x1="1318" y1="674" x2="1322" y2="674"/></g>
+<g transform="translate(1390,640) rotate(90)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="1400" y="638" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">R46</text>
+<text x="1400" y="649" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">470k</text>
+<g><polyline points="1390,620 1396,616 1403.2,616 1403.2,624 1396,624 1390,620" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1407.2" y="623" text-anchor="start" font-size="9" fill="#2b3033">E</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1390" y1="660" x2="1390" y2="666"/><line x1="1381" y1="666" x2="1399" y2="666"/><line x1="1384.5" y1="670" x2="1395.5" y2="670"/><line x1="1388" y1="674" x2="1392" y2="674"/></g>
+<g transform="translate(1480,600) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="-18,-22 -18,22 26,0" fill="none"/><line x1="-30" y1="-10" x2="-18" y2="-10"/><line x1="-30" y1="10" x2="-18" y2="10"/><line x1="26" y1="0" x2="30" y2="0"/><text x="-15" y="-6.5" font-size="11" stroke="none" fill="#2b3033">+</text><text x="-15" y="14" font-size="11" stroke="none" fill="#2b3033">&#8722;</text></g>
+<text x="1478" y="572" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U3C</text>
+<text x="1478" y="638" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">LM324</text>
+<text x="1447" y="586" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">10</text>
+<text x="1447" y="622" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">9</text>
+<text x="1513" y="596" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">8</text>
+<g><polyline points="1450,590 1444,586 1436.8,586 1436.8,594 1444,594 1450,590" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1432.8" y="593" text-anchor="end" font-size="9" fill="#2b3033">E</text>
+<g><polyline points="1450,610 1444,606 1436.8,606 1436.8,614 1444,614 1450,610" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1432.8" y="613" text-anchor="end" font-size="9" fill="#2b3033">VW</text>
+<g><polyline points="1510,600 1516,596 1523.2,596 1523.2,604 1516,604 1510,600" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1527.2" y="603" text-anchor="start" font-size="9" fill="#2b3033">VW</text>
+<text x="576" y="728" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">G = 1 только если часы в «1» И бит в «1». Импульс ≈ 1,2 с даёт волну: быстрый подъём, медленный спад.</text>
+<g transform="translate(80,840) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="80" y="831" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R47</text>
+<text x="80" y="860" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">100k</text>
+<g><polyline points="60,840 54,836 46.8,836 46.8,844 54,844 60,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="42.8" y="843" text-anchor="end" font-size="9" fill="#2b3033">VW</text>
+<g><polyline points="100,840 106,836 113.2,836 113.2,844 106,844 100,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="117.2" y="843" text-anchor="start" font-size="9" fill="#2b3033">FN</text>
+<g transform="translate(190,890) rotate(90)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><path d="M 4,-8 Q 1,0 4,8"/><line x1="3" y1="0" x2="20" y2="0"/><text x="-13" y="-6" font-size="9" stroke="none" fill="#2b3033">+</text></g>
+<text x="203" y="888" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">C27</text>
+<text x="203" y="899" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">4.7µ</text>
+<g><polyline points="190,870 196,866 203.2,866 203.2,874 196,874 190,870" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="207.2" y="873" text-anchor="start" font-size="9" fill="#2b3033">FN</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="190" y1="910" x2="190" y2="916"/><line x1="181" y1="916" x2="199" y2="916"/><line x1="184.5" y1="920" x2="195.5" y2="920"/><line x1="188" y1="924" x2="192" y2="924"/></g>
+<g transform="translate(330,850) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="-18,-22 -18,22 26,0" fill="none"/><line x1="-30" y1="-10" x2="-18" y2="-10"/><line x1="-30" y1="10" x2="-18" y2="10"/><line x1="26" y1="0" x2="30" y2="0"/><text x="-15" y="-6.5" font-size="11" stroke="none" fill="#2b3033">+</text><text x="-15" y="14" font-size="11" stroke="none" fill="#2b3033">&#8722;</text></g>
+<text x="328" y="822" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U3D</text>
+<text x="328" y="888" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">LM324</text>
+<text x="297" y="836" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">12</text>
+<text x="297" y="872" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">13</text>
+<text x="363" y="846" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">14</text>
+<g><polyline points="300,840 294,836 286.8,836 286.8,844 294,844 300,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="282.8" y="843" text-anchor="end" font-size="9" fill="#2b3033">FN</text>
+<g><polyline points="300,860 294,856 286.8,856 286.8,864 294,864 300,860" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="282.8" y="863" text-anchor="end" font-size="9" fill="#2b3033">FW</text>
+<g><polyline points="360,850 366,846 373.2,846 373.2,854 366,854 360,850" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="377.2" y="853" text-anchor="start" font-size="9" fill="#2b3033">FW</text>
+<g transform="translate(480,840) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="480" y="831" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R52</text>
+<text x="480" y="860" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">10k</text>
+<g><polyline points="460,840 454,836 446.8,836 446.8,844 454,844 460,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="442.8" y="843" text-anchor="end" font-size="9" fill="#2b3033">VW</text>
+<g><polyline points="500,840 506,836 513.2,836 513.2,844 506,844 500,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="517.2" y="843" text-anchor="start" font-size="9" fill="#2b3033">QB</text>
+<g transform="translate(480,910) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="480" y="901" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R53</text>
+<text x="480" y="930" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">10M</text>
+<polyline points="460,910 446,910" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="446" y1="910" x2="446" y2="902"/><line x1="438" y1="902" x2="454" y2="902"/></g><text x="446" y="897" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g><polyline points="500,910 506,906 513.2,906 513.2,914 506,914 500,910" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="517.2" y="913" text-anchor="start" font-size="9" fill="#2b3033">QB</text>
+<g transform="translate(620,860) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-4" y2="0"/><line x1="-4" y1="-9" x2="-4" y2="9"/><line x1="-4" y1="-4" x2="10" y2="-12"/><line x1="10" y1="-12" x2="10" y2="-20"/><line x1="-4" y1="4" x2="10" y2="12"/><line x1="10" y1="12" x2="10" y2="20"/><polygon points="10,12 4,11.5 7,6.5" fill="#2b3033"/></g>
+<text x="644" y="860" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">Q2</text>
+<text x="644" y="871" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">2N3904</text>
+<g><polyline points="600,860 594,856 586.8,856 586.8,864 594,864 600,860" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="582.8" y="863" text-anchor="end" font-size="9" fill="#2b3033">QB</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="630" y1="880" x2="630" y2="886"/><line x1="621" y1="886" x2="639" y2="886"/><line x1="624.5" y1="890" x2="635.5" y2="890"/><line x1="628" y1="894" x2="632" y2="894"/></g>
+<g><polyline points="630,840 636,836 643.2,836 643.2,844 636,844 630,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="647.2" y="843" text-anchor="start" font-size="9" fill="#2b3033">LEDK</text>
+<g transform="translate(760,840) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-6" y2="0"/><polygon points="-6,-7 -6,7 6,0" fill="none"/><line x1="6" y1="-7" x2="6" y2="7"/><line x1="6" y1="0" x2="20" y2="0"/><line x1="-2" y1="-9" x2="4" y2="-15"/><polyline points="1.5,-15 4,-15 4,-12.5"/><line x1="3" y1="-6" x2="9" y2="-12"/><polyline points="6.5,-12 9,-12 9,-9.5"/></g>
+<text x="760" y="818" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">D10</text>
+<text x="760" y="858" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">LED aqua</text>
+<g><polyline points="740,840 734,836 726.8,836 726.8,844 734,844 740,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="722.8" y="843" text-anchor="end" font-size="9" fill="#2b3033">LEDA</text>
+<g><polyline points="780,840 786,836 793.2,836 793.2,844 786,844 780,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="797.2" y="843" text-anchor="start" font-size="9" fill="#2b3033">LEDK</text>
+<g transform="translate(880,840) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-11" y2="0"/><rect x="-11" y="-4.5" width="22" height="9"/><line x1="11" y1="0" x2="20" y2="0"/></g>
+<text x="880" y="831" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">R54</text>
+<text x="880" y="860" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">820</text>
+<polyline points="860,840 846,840" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="846" y1="840" x2="846" y2="832"/><line x1="838" y1="832" x2="854" y2="832"/></g><text x="846" y="827" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">V12</text>
+<g><polyline points="900,840 906,836 913.2,836 913.2,844 906,844 900,840" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="917.2" y="843" text-anchor="start" font-size="9" fill="#2b3033">LEDA</text>
+<g transform="translate(1060,890) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="-14" y="-10" width="28" height="20" fill="none"/><text x="0" y="3" font-size="8" text-anchor="middle" stroke="none" fill="#2b3033">PWR</text><line x1="0" y1="-20" x2="0" y2="-10"/><line x1="0" y1="10" x2="0" y2="20"/></g>
+<text x="1078" y="888" font-size="9" font-weight="700" text-anchor="start" fill="#2b3033">U3 power</text>
+<text x="1078" y="899" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">pins 4 / 11</text>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="1060" y1="870" x2="1060" y2="862"/><line x1="1052" y1="862" x2="1068" y2="862"/></g><text x="1060" y="857" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1060" y1="910" x2="1060" y2="916"/><line x1="1051" y1="916" x2="1069" y2="916"/><line x1="1054.5" y1="920" x2="1065.5" y2="920"/><line x1="1058" y1="924" x2="1062" y2="924"/></g>
+<g transform="translate(1180,890) rotate(90)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><line x1="3" y1="-8" x2="3" y2="8"/><line x1="3" y1="0" x2="20" y2="0"/></g>
+<text x="1193" y="888" font-size="10" font-weight="700" text-anchor="start" fill="#2b3033">C28</text>
+<text x="1193" y="899" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">100n</text>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="1180" y1="870" x2="1180" y2="862"/><line x1="1172" y1="862" x2="1188" y2="862"/></g><text x="1180" y="857" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1180" y1="910" x2="1180" y2="916"/><line x1="1171" y1="916" x2="1189" y2="916"/><line x1="1174.5" y1="920" x2="1185.5" y2="920"/><line x1="1178" y1="924" x2="1182" y2="924"/></g>
+<g transform="translate(1330,870) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="-18,-22 -18,22 26,0" fill="none"/><line x1="-30" y1="-10" x2="-18" y2="-10"/><line x1="-30" y1="10" x2="-18" y2="10"/><line x1="26" y1="0" x2="30" y2="0"/><text x="-15" y="-6.5" font-size="11" stroke="none" fill="#2b3033">+</text><text x="-15" y="14" font-size="11" stroke="none" fill="#2b3033">&#8722;</text></g>
+<text x="1328" y="842" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">U4B</text>
+<text x="1328" y="908" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">LM358</text>
+<text x="1297" y="856" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">5</text>
+<text x="1297" y="892" font-size="8" font-weight="400" text-anchor="end" fill="#6d7377">6</text>
+<text x="1363" y="866" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">7</text>
+<polyline points="1300,860 1286,860" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="1286" y1="860" x2="1286" y2="852"/><line x1="1278" y1="852" x2="1294" y2="852"/></g><text x="1286" y="847" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">VB</text>
+<g><polyline points="1300,880 1294,876 1286.8,876 1286.8,884 1294,884 1300,880" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1282.8" y="883" text-anchor="end" font-size="9" fill="#2b3033">SPARE</text>
+<g><polyline points="1360,870 1366,866 1373.2,866 1373.2,874 1366,874 1360,870" fill="none" stroke="#6d7377" stroke-width="1"/></g><text x="1377.2" y="873" text-anchor="start" font-size="9" fill="#2b3033">SPARE</text>
+<g transform="translate(1450,890) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="-14" y="-10" width="28" height="20" fill="none"/><text x="0" y="3" font-size="8" text-anchor="middle" stroke="none" fill="#2b3033">PWR</text><line x1="0" y1="-20" x2="0" y2="-10"/><line x1="0" y1="10" x2="0" y2="20"/></g>
+<text x="1468" y="888" font-size="9" font-weight="700" text-anchor="start" fill="#2b3033">U4 power</text>
+<text x="1468" y="899" font-size="8" font-weight="400" text-anchor="start" fill="#6d7377">pins 8 / 4</text>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="1450" y1="870" x2="1450" y2="862"/><line x1="1442" y1="862" x2="1458" y2="862"/></g><text x="1450" y="857" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1450" y1="910" x2="1450" y2="916"/><line x1="1441" y1="916" x2="1459" y2="916"/><line x1="1444.5" y1="920" x2="1455.5" y2="920"/><line x1="1448" y1="924" x2="1452" y2="924"/></g>
+<g transform="translate(1500,960) rotate(0)" stroke="#2b3033" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="-20" y1="0" x2="-3" y2="0"/><line x1="-3" y1="-8" x2="-3" y2="8"/><line x1="3" y1="-8" x2="3" y2="8"/><line x1="3" y1="0" x2="20" y2="0"/></g>
+<text x="1500" y="946" font-size="10" font-weight="700" text-anchor="middle" fill="#2b3033">C29</text>
+<text x="1500" y="979" font-size="9" font-weight="400" text-anchor="middle" fill="#6d7377">100n</text>
+<polyline points="1480,960 1466,960" fill="none" stroke="#2b3033" stroke-width="1.4" stroke-linejoin="round"/>
+<g stroke="#00a79b" stroke-width="1.6" fill="none"><line x1="1466" y1="960" x2="1466" y2="952"/><line x1="1458" y1="952" x2="1474" y2="952"/></g><text x="1466" y="947" text-anchor="middle" font-size="9" font-weight="600" fill="#00a79b">A12</text>
+<g stroke="#2b3033" stroke-width="1.4" fill="none"><line x1="1520" y1="960" x2="1520" y2="966"/><line x1="1511" y1="966" x2="1529" y2="966"/><line x1="1514.5" y1="970" x2="1525.5" y2="970"/><line x1="1518" y1="974" x2="1522" y2="974"/></g>
+<text x="500" y="975" font-size="9" font-weight="400" text-anchor="start" fill="#6d7377">LED слабо тлеет при включении и ярко вспыхивает на гребне волны.</text></svg>

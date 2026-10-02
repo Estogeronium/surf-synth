@@ -1,5 +1,7 @@
 import { SurfEngine, PARAM_DEFAULTS } from './audio/surf-engine.js';
 import { createInstrument } from './ui/scene.js';
+import { createPanel } from './ui/panel.js';
+import hw from './hardware-data/hardware.json';
 
 const STORAGE_KEY = 'surf-synth:v1';
 const IDS = ['surf', 'tide', 'tone', 'volume'];
@@ -39,13 +41,47 @@ async function setPower(on) {
 }
 
 let instrument = null;
+const tip = document.querySelector('.tip');
+const partInfo = Object.fromEntries(hw.parts.map((p) => [p.ref, p]));
+const hintEnd = document.getElementById('hintEnd');
+const HINT_FRONT = hintEnd.textContent;
+const norm = (ref) => (ref === 'RV6A' || ref === 'RV6B' ? 'RV6' : ref);
+function selectPart(ref) {
+  if (!ref) { instrument.highlight([]); panel.setSelected(null); return; }
+  ref = norm(ref);
+  instrument.highlight([ref]);
+  panel.setSelected(ref);
+}
+let panel = null;
 try {
   instrument = createInstrument({
     canvas: document.getElementById('stage'),
     values,
     onChange: (id, value) => { sliders[id].value = value; setValue(id, value); },
     onPower: setPower,
+    onPartSelect: (ref) => selectPart(ref),
+    onPartHover: (ref, x, y) => {
+      const p = ref && partInfo[ref];
+      if (!p) { tip.hidden = true; return; }
+      tip.innerHTML = `<b>${norm(ref)}</b> · ${p.vtxt || p.value}<small>${p.block || ''}</small>`;
+      tip.style.left = `${Math.min(x + 14, window.innerWidth - 270)}px`; tip.style.top = `${y + 14}px`; tip.hidden = false;
+    },
   });
+  panel = createPanel({
+    onSelect: (ref) => selectPart(ref),
+    onHighlight: (refs) => instrument.highlight(refs),
+    onXray: (on) => instrument.setXray(on),
+  });
+  document.body.append(panel.el);
+  document.querySelectorAll('.view-toggle [data-view]').forEach((b) => b.addEventListener('click', () => {
+    const inside = b.dataset.view === 'inside';
+    document.querySelectorAll('.view-toggle [data-view]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    document.body.classList.toggle('is-inside', inside);
+    panel.el.hidden = !inside;
+    hintEnd.textContent = inside ? 'Вращайте мышью · нажмите на деталь' : HINT_FRONT;
+    if (!inside) { instrument.highlight([]); panel.setSelected(null); tip.hidden = true; }
+    instrument.setView(inside ? 'inside' : 'front');
+  }));
   instrument.setLevelSource(() => engine.getLevel());
 } catch (err) {
   console.warn('WebGL unavailable, falling back to plain controls.', err);

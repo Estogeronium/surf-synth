@@ -1,0 +1,136 @@
+{
+ "dc": {
+  "V12": 11.77,
+  "A12": 11.7,
+  "VB": 5.85,
+  "QE": 7.28,
+  "SURFW": 5.85,
+  "OUTA": 5.88,
+  "TONW": 5.23
+ },
+ "pink": {
+  "slope_db_oct": -3.03,
+  "max_dev_db": 0.26,
+  "band": "30 Гц – 16 кГц"
+ },
+ "vcf": [
+  {
+   "vw": 0.02,
+   "fc_hz": 258
+  },
+  {
+   "vw": 2.5,
+   "fc_hz": 892
+  },
+  {
+   "vw": 3.5,
+   "fc_hz": 1314
+  },
+  {
+   "vw": 4.5,
+   "fc_hz": 1935
+  },
+  {
+   "vw": 5.5,
+   "fc_hz": 2637
+  }
+ ],
+ "tone": {
+  "min_hz": 87,
+  "max_hz": 480
+ },
+ "levels": [
+  {
+   "vw": 0.02,
+   "w_mv": 126,
+   "mix_mv": 5.4,
+   "spk_v": 0.08
+  },
+  {
+   "vw": 2.5,
+   "w_mv": 127,
+   "mix_mv": 29.1,
+   "spk_v": 0.41
+  },
+  {
+   "vw": 4.0,
+   "w_mv": 127,
+   "mix_mv": 72.1,
+   "spk_v": 0.98
+  },
+  {
+   "vw": 5.5,
+   "w_mv": 127,
+   "mix_mv": 117.4,
+   "spk_v": 1.48
+  }
+ ],
+ "waves": [
+  {
+   "surf": 15,
+   "tide": 5,
+   "waves_per_min": 0.0,
+   "mean_vw": 0.02,
+   "max_vw": 0.02,
+   "periods_s": [
+    8.2,
+    11.2
+   ]
+  },
+  {
+   "surf": 50,
+   "tide": 5,
+   "waves_per_min": 4.0,
+   "mean_vw": 1.09,
+   "max_vw": 4.28,
+   "periods_s": [
+    8.2,
+    11.2
+   ]
+  },
+  {
+   "surf": 85,
+   "tide": 5,
+   "waves_per_min": 7.3,
+   "mean_vw": 1.73,
+   "max_vw": 5.83,
+   "periods_s": [
+    8.2,
+    11.2
+   ]
+  },
+  {
+   "surf": 15,
+   "tide": 95,
+   "waves_per_min": 0.0,
+   "mean_vw": 0.02,
+   "max_vw": 0.02,
+   "periods_s": [
+    3.5,
+    4.5
+   ]
+  },
+  {
+   "surf": 50,
+   "tide": 95,
+   "waves_per_min": 9.3,
+   "mean_vw": 2.15,
+   "max_vw": 5.88,
+   "periods_s": [
+    3.5,
+    4.5
+   ]
+  },
+  {
+   "surf": 85,
+   "tide": 95,
+   "waves_per_min": 17.3,
+   "mean_vw": 3.25,
+   "max_vw": 6.01,
+   "periods_s": [
+    3.5,
+    4.5
+   ]
+  }
+ ]
+}
