@@ -1,4 +1,6 @@
-# Surf Synth: паяемая версия
+# Surf Synth: аналоговая версия (архив)
+
+> Основной паяемой версией теперь считается цифровая: [`../digital`](../digital/README.md). Эта оставлена как есть и в приложении не показывается.
 
 Аналоговый генератор шума прибоя на 12 В, без микроконтроллера. Те же ручки, что на сайте: **Surf**, **Tide**, **Tone**, **Volume**, кнопка питания и светодиод, который вспыхивает на гребне волны.
 
@@ -67,9 +69,9 @@
 ```bash
 pip install numpy scipy matplotlib       # только для графиков
 sudo apt install ngspice                 # только для проверки
-python3 hardware/tools/build.py          # схема → svg, bom, nets, kicad, json
-python3 hardware/tools/blocks.py         # структурная схема
-python3 hardware/tools/verify_all.py     # симуляция (несколько минут)
+python3 hardware/analog/tools/build.py          # схема → svg, bom, nets, kicad, json
+python3 hardware/analog/tools/blocks.py         # структурная схема
+python3 hardware/analog/tools/verify_all.py     # симуляция (несколько минут)
 ```
 
-Правки вносятся в `hardware/tools/circuit.py`: схема — единственный источник, остальное из неё выводится. Сначала запускается проверка правил (ERC).
+Правки вносятся в `hardware/analog/tools/circuit.py`: схема — единственный источник, остальное из неё выводится. Сначала запускается проверка правил (ERC).

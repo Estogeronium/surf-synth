@@ -43,12 +43,8 @@ async function setPower(on) {
 let instrument = null;
 const tip = document.querySelector('.tip');
 const partInfo = Object.fromEntries(hw.parts.map((p) => [p.ref, p]));
-const hintEnd = document.getElementById('hintEnd');
-const HINT_FRONT = hintEnd.textContent;
-const norm = (ref) => (ref === 'RV6A' || ref === 'RV6B' ? 'RV6' : ref);
 function selectPart(ref) {
   if (!ref) { instrument.highlight([]); panel.setSelected(null); return; }
-  ref = norm(ref);
   instrument.highlight([ref]);
   panel.setSelected(ref);
 }
@@ -63,7 +59,7 @@ try {
     onPartHover: (ref, x, y) => {
       const p = ref && partInfo[ref];
       if (!p) { tip.hidden = true; return; }
-      tip.innerHTML = `<b>${norm(ref)}</b> · ${p.vtxt || p.value}<small>${p.block || ''}</small>`;
+      tip.innerHTML = `<b>${ref}</b> · ${p.vtxt || p.value}<small>${p.block || ''}</small>`;
       tip.style.left = `${Math.min(x + 14, window.innerWidth - 270)}px`; tip.style.top = `${y + 14}px`; tip.hidden = false;
     },
   });
@@ -71,6 +67,7 @@ try {
     onSelect: (ref) => selectPart(ref),
     onHighlight: (refs) => instrument.highlight(refs),
     onXray: (on) => instrument.setXray(on),
+    onNet: (net) => { instrument.highlightNet(net); panel.setSelected(null); },
   });
   document.body.append(panel.el);
   document.querySelectorAll('.view-toggle [data-view]').forEach((b) => b.addEventListener('click', () => {
@@ -78,7 +75,6 @@ try {
     document.querySelectorAll('.view-toggle [data-view]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
     document.body.classList.toggle('is-inside', inside);
     panel.el.hidden = !inside;
-    hintEnd.textContent = inside ? 'Вращайте мышью · нажмите на деталь' : HINT_FRONT;
     if (!inside) { instrument.highlight([]); panel.setSelected(null); tip.hidden = true; }
     instrument.setView(inside ? 'inside' : 'front');
   }));

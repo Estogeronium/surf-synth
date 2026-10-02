@@ -5,8 +5,7 @@ sys.path.insert(0, HERE)
 import circuit, spice, parts_meta as pm, layout
 D = circuit.D
 OUT = os.path.join(HERE, '..', 'out')
-DATA = os.path.join(HERE, '..', '..', 'src', 'hardware-data')
-os.makedirs(OUT, exist_ok=True); os.makedirs(DATA, exist_ok=True)
+os.makedirs(OUT, exist_ok=True)
 
 nets = D.nets()
 parts = D.parts()
@@ -16,7 +15,6 @@ sheet_files = []
 for sh in D.sheets:
     fn = f'sheet-{sh.name}.svg'
     open(os.path.join(OUT, fn), 'w').write(sh.svg())
-    shutil.copy(os.path.join(OUT, fn), os.path.join(DATA, fn))
     sheet_files.append(dict(file=fn, title=sh.title, w=sh.w, h=sh.h, name=sh.name))
 
 # ---- ERC --------------------------------------------------------------------
@@ -201,5 +199,4 @@ hw = dict(
     nets=netlist_for_json(), sim=sim, totals=dict(items=total, lines=len(bom), parts=len(phys), nets=len(nets)),
 )
 json.dump(hw, open(os.path.join(OUT, 'hardware.json'), 'w'), ensure_ascii=False, indent=1)
-shutil.copy(os.path.join(OUT, 'hardware.json'), os.path.join(DATA, 'hardware.json'))
 print('wrote outputs to', os.path.normpath(OUT))

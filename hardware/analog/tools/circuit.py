@@ -4,6 +4,8 @@ Parts are placed on sheets; connections are drawn as wires or as net flags
 (every flag with the same name is the same net). `build.py` renders SVG,
 exports a SPICE netlist and the BOM, and runs an electrical rule check.
 """
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'lib'))
 from schematic import Design, rot, INK, SOFT, ACCENT
 
 RAILS = {'V12', 'A12', 'VB'}

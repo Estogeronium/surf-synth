@@ -309,6 +309,7 @@ export function createInstrument({ canvas, values, onChange, onPower, onPartSele
     setView,
     getView: () => (wantInside ? 'inside' : 'front'),
     highlight: (refs) => interior?.highlight(refs || []),
+    highlightNet: (n) => interior?.highlightNet(n),
     setXray: (on) => { if (interior) interior.xray = on; },
     setValue: (id, v) => setKnob(id, v, false),
     setPower: (on) => { powered = on; },

@@ -60,6 +60,4 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W
        f'<rect width="{W}" height="{H}" fill="{BG}"/>' + ''.join(items) + '</svg>')
 out = os.path.join(os.path.dirname(__file__), '..', 'docs', 'blocks.svg')
 open(out, 'w').write(svg)
-import shutil
-shutil.copy(out, os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'hardware-data', 'blocks.svg'))
 print('ok')

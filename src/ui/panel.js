@@ -3,14 +3,14 @@ import { guideHtml } from './guide.js';
 
 const svgs = import.meta.glob('../hardware-data/*.svg', { query: '?raw', import: 'default', eager: true });
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const byRef = Object.fromEntries(hw.parts.map((p) => [p.ref === 'RV6A' ? 'RV6' : p.ref, p]));
-hw.parts.forEach((p) => { byRef[p.ref] = p; });
+const byRef = Object.fromEntries(hw.parts.map((p) => [p.ref, p]));
 
 const pinLabel = {
-  Q: { 1: 'Э', 2: 'Б', 3: 'К' },
-  D: { 1: 'катод', 2: 'анод' },
-  LED: { 1: 'катод', 2: 'анод' },
-  POT: { 1: '1', 2: 'движок', 3: '3' },
+  Q: { E: 'эмиттер', B: 'база', C: 'коллектор' },
+  D: { A: 'анод', K: 'катод' },
+  LED: { A: 'анод', K: 'катод' },
+  POT: { 1: 'крайний 1', W: 'движок', 3: 'крайний 3' },
+  J: { TIP: 'центр «+»', SLV: 'корпус «−»' },
 };
 
 function partCard(ref) {
@@ -31,26 +31,30 @@ function partCard(ref) {
   <div class="part-head"><b>${esc(p.ref === 'RV6A' ? 'RV6' : p.ref)}</b><span>${esc(p.vtxt || p.value)}</span></div>
   <p>${esc(p.desc)}</p>
   <p class="meta">${esc(p.pkg)} · ${esc(p.block || '')}</p>
+  ${p.url ? `<p class="meta"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title || 'Страница на chipdip.ru')}</a></p>` : ''}
+  ${p.note ? `<p class="meta">${esc(p.note)}</p>` : ''}
   ${rows.length ? `<table class="pins"><thead><tr><th>Вывод</th><th>Цепь</th><th>Идёт к</th></tr></thead><tbody>${rows.join('')}</tbody></table>` : ''}
 </div>`;
 }
 
-export function createPanel({ onSelect, onHighlight, onXray }) {
+export function createPanel({ onSelect, onHighlight, onXray, onNet }) {
   const el = document.createElement('aside');
   el.className = 'panel'; el.hidden = true; el.setAttribute('aria-label', 'Состав устройства');
   el.innerHTML = `
   <div class="tabs" role="tablist">
     <button role="tab" data-tab="parts" aria-selected="true">Детали</button>
     <button role="tab" data-tab="schem" aria-selected="false">Схема</button>
+    <button role="tab" data-tab="nets" aria-selected="false">Цепи</button>
     <button role="tab" data-tab="guide" aria-selected="false">Сборка</button>
     <label class="xray"><input type="checkbox" id="xray"> Просвет</label>
   </div>
   <div class="tabpane" data-pane="parts">
-    <div class="summary"><b>${hw.totals.items}</b> деталей, <b>${hw.totals.lines}</b> позиций. Нажмите на обозначение — деталь подсветится на плате.</div>
+    <div class="summary"><b>${hw.totals.items}</b> деталей, <b>${hw.totals.lines}</b> позиций. Нажмите на обозначение — деталь и её провода подсветятся на плате.</div>
     <div id="card" class="card-slot"></div>
     <div class="bom"></div>
     <h4>Кроме деталей на схеме</h4>
-    <ul class="extra">${hw.extra.map((e) => `<li><b>${esc(e.name)}</b> ×${esc(e.qty)}<br><span>${esc(e.desc)}</span></li>`).join('')}</ul>
+    <ul class="extra">${hw.extra.map((e) => `<li><b>${esc(e.name)}</b> ×${esc(e.qty)}${e.url ? ` · <a href="${esc(e.url)}" target="_blank" rel="noopener">chipdip.ru</a>` : ''}<br><span>${esc(e.note)}</span>${e.title ? `<br><small>${esc(e.title)}</small>` : ''}</li>`).join('')}</ul>
+    <p class="meta">Названия и ссылки взяты из поиска по chipdip.ru. Страницы товаров я открыть не мог, поэтому наличие и цены проверьте на сайте.</p>
   </div>
   <div class="tabpane" data-pane="schem" hidden>
     <div class="sheetbar">
@@ -59,6 +63,10 @@ export function createPanel({ onSelect, onHighlight, onXray }) {
     </div>
     <p class="meta sheettitle"></p>
     <div class="sheetview"></div>
+  </div>
+  <div class="tabpane" data-pane="nets" hidden>
+    <p class="summary">Нажмите на название цепи — её провода подсветятся на плате.</p>
+    ${Object.entries(hw.nets).sort().map(([n, pins]) => `<div class="net"><button class="netname" data-net="${esc(n)}">${esc(n)}</button><span>${pins.map((x) => esc(x)).join(' · ')}</span></div>`).join('')}
   </div>
   <div class="tabpane guide" data-pane="guide" hidden>${guideHtml()}</div>`;
 
@@ -69,7 +77,10 @@ export function createPanel({ onSelect, onHighlight, onXray }) {
     bom.insertAdjacentHTML('beforeend', `
 <div class="line" data-refs="${esc(b.refs.join(' '))}">
   <span class="qty">${b.qty}</span>
-  <div class="d"><span>${esc(b.desc)}</span><small>${esc(b.pkg)}</small>
+  <div class="d"><span>${esc(b.name)}</span><small>${esc(b.pkg)}</small>
+  ${b.url ? `<small><a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title || 'chipdip.ru')}</a></small>` : ''}
+  ${b.note ? `<small>${esc(b.note)}</small>` : ''}
+  <small class="chk">${esc(b.check)}</small>
   <div class="refs">${b.refs.map((r) => `<button class="chip" data-ref="${esc(r)}">${esc(r)}</button>`).join('')}</div></div>
 </div>`);
   }
@@ -115,6 +126,8 @@ export function createPanel({ onSelect, onHighlight, onXray }) {
     }
   }
   el.addEventListener('click', (e) => {
+    const net = e.target.closest('.netname');
+    if (net) { onNet(net.dataset.net); return; }
     const chip = e.target.closest('.chip');
     if (chip) { onSelect(chip.dataset.ref); return; }
     const line = e.target.closest('.line');

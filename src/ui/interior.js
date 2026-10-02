@@ -3,314 +3,394 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import hw from '../hardware-data/hardware.json';
 
-const MM = 1 / hw.unit_mm;            // millimetres -> scene units
-const T_PANEL = 0.1, T_LID = 0.1, T_WALL = 0.11, PCB_T = 1.6 * MM, GAP = 7 * MM;
+const MM = 1 / hw.unit_mm;                       // millimetres -> scene units
+const T_PANEL = 0.1, T_LID = 0.1, T_WALL = 0.11;
+const B = hw.board;
+const PCB_T = B.thickness;                       // mm
 
 const COL = {
-  pcb: 0xeef0ec, silk: '#0b8f86', resistor: 0xd9c38e, film: 0xc0392b, ceramic: 0xd6a84c,
-  alu: 0xc9ced1, black: 0x1d2022, socket: 0x34393c, pin: 0xb9bec2, glass: 0xd9873a,
-  trim: 0x2f5fa8, brass: 0xc2a24a, el16: 0x20406f, el25: 0x23272a, stripe: 0xe8e8e8,
+  board: 0x2a7b57, boardSilk: '#f4f6f2', gold: 0xd7b44a, black: 0x1d2022, socket: 0x2a2e31, pin: 0xb9bec2,
+  pico: 0x1f7a4a, red: 0xb3262a, resistor: 0xd9c38e, ceramic: 0xd6a84c, glass: 0xd9873a, alu: 0xc9ced1, brass: 0xc2a24a,
+  el16: 0x20406f, stripe: 0xe8e8e8,
 };
 const BAND = { black: 0x111111, brown: 0x6b3a1e, red: 0xc02a1d, orange: 0xe5782a, yellow: 0xe8c534, green: 0x2e8b4a, blue: 0x2a52b8, violet: 0x7a3fa0, grey: 0x8a8d90, white: 0xf2f2f2, gold: 0xc9a43c, silver: 0xb8bcc0 };
 
 const mats = {};
-function mat(color, opts = {}) {
-  const key = color + JSON.stringify(opts);
-  return (mats[key] ||= new THREE.MeshStandardMaterial({ color, roughness: 0.55, metalness: 0, ...opts }));
-}
+const mat = (color, o = {}) => (mats[color + JSON.stringify(o)] ||= new THREE.MeshStandardMaterial({ color, roughness: 0.55, metalness: 0, ...o }));
+const metal = () => mat(COL.pin, { metalness: 0.6, roughness: 0.35 });
 const unitCyl = new THREE.CylinderGeometry(1, 1, 1, 18).rotateX(Math.PI / 2);   // axis = z
 const unitBox = new THREE.BoxGeometry(1, 1, 1);
-function cyl(r, len, material, x, y, z0) {
-  const m = new THREE.Mesh(unitCyl, material);
-  m.scale.set(r, r, len); m.position.set(x, y, z0 + len / 2); return m;
-}
-function box(w, d, h, material, x, y, z0) {
-  const m = new THREE.Mesh(unitBox, material);
-  m.scale.set(w, d, h); m.position.set(x, y, z0 + h / 2); return m;
-}
-// baked geometries (position/scale applied) so that many thin pieces become one mesh
-function bCyl(r, len, x, y, z0) { return unitCyl.clone().scale(r, r, len).translate(x, y, z0 + len / 2); }
-function bBox(w, d, h, x, y, z0) { return unitBox.clone().scale(w, d, h).translate(x, y, z0 + h / 2); }
-const metal = () => mat(COL.pin, { metalness: 0.6, roughness: 0.35 });
+const cyl = (r, len, m, x, y, z0) => { const o = new THREE.Mesh(unitCyl, m); o.scale.set(r, r, len); o.position.set(x, y, z0 + len / 2); return o; };
+const box = (w, d, h, m, x, y, z0) => { const o = new THREE.Mesh(unitBox, m); o.scale.set(w, d, h); o.position.set(x, y, z0 + h / 2); return o; };
+const bCyl = (r, len, x, y, z0) => unitCyl.clone().scale(r, r, len).translate(x, y, z0 + len / 2);
+const bBox = (w, d, h, x, y, z0) => unitBox.clone().scale(w, d, h).translate(x, y, z0 + h / 2);
 const cache = {};
-function once(key, make) { return (cache[key] ||= make()); }
-function legsMesh(key, makeGeoms) {
-  const geo = once('g' + key, () => mergeGeometries(makeGeoms()));
+const once = (k, f) => (cache[k] ||= f());
+const legs = (key, mk) => new THREE.Mesh(once('g' + key, () => mergeGeometries(mk())), metal());
+
+function canvasTex(w, h, draw) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+
+// ---- parts that sit on the board: local frame in mm, +z = away from the board (towards the rear) --------------
+// Two-pad parts are built between their two pads (a, b in mm, relative to the part centre).
+function axial(g, a, b, bodyR, bodyLen, bodyMat, extra) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy), ang = Math.atan2(dy, dx);
+  const holder = new THREE.Group(); holder.rotation.z = ang;
+  const h = bodyR + 0.6;
+  const body = cyl(bodyR, bodyLen, bodyMat, 0, 0, 0); body.rotation.y = Math.PI / 2; body.position.set(0, 0, h);
+  holder.add(body);
+  if (extra) extra(holder, bodyR, bodyLen, h);
+  holder.add(legsMesh2(len, h));
+  g.add(holder);
+}
+function legsMesh2(len, h) {
+  const key = `ax${len.toFixed(1)}_${h.toFixed(1)}`;
+  const geo = once('g' + key, () => mergeGeometries([
+    bCyl(0.3, h, -len / 2, 0, 0), bCyl(0.3, h, len / 2, 0, 0),
+    unitBox.clone().scale(len, 0.6, 0.6).translate(0, 0, h + 0.1),
+  ]));
   return new THREE.Mesh(geo, metal());
 }
+function buildResistor(p, pads) {
+  const g = new THREE.Group();
+  const a = pads['1'], b = pads['2'];
+  const tex = once('rt' + p.bands.join(), () => canvasTex(4, 128, (x) => {
+    x.fillStyle = '#d9c38e'; x.fillRect(0, 0, 4, 128);
+    [0.9, 1.8, 2.7, 4.6].forEach((at, i) => { x.fillStyle = '#' + BAND[p.bands[i]].toString(16).padStart(6, '0'); x.fillRect(0, (1 - (at + 0.3) / 6.3) * 128, 4, (0.6 / 6.3) * 128); });
+  }));
+  const bodyMat = once('rm' + p.bands.join(), () => new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 }));
+  const dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy), ang = Math.atan2(dy, dx);
+  const holder = new THREE.Group(); holder.position.set((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, 0); holder.rotation.z = ang;
+  const body = new THREE.Mesh(unitCyl, bodyMat); body.scale.set(1.2, 1.2, 6.3); body.rotation.y = Math.PI / 2; body.position.set(0, 0, 1.6);
+  holder.add(body, legsMesh2(len, 1.6));
+  g.add(holder); return g;
+}
+function buildDiode(p, pads) {
+  const g = new THREE.Group(); const a = pads.A, k = pads.K;
+  const dx = k[0] - a[0], dy = k[1] - a[1], len = Math.hypot(dx, dy), ang = Math.atan2(dy, dx);
+  const holder = new THREE.Group(); holder.position.set((a[0] + k[0]) / 2, (a[1] + k[1]) / 2, 0); holder.rotation.z = ang;
+  const bodyL = 4.7;
+  const body = new THREE.Mesh(unitCyl, mat(COL.black)); body.scale.set(1.35, 1.35, bodyL); body.rotation.y = Math.PI / 2; body.position.set(0, 0, 2.0);
+  const band = new THREE.Mesh(unitCyl, mat(COL.alu)); band.scale.set(1.4, 1.4, 0.8); band.rotation.y = Math.PI / 2; band.position.set(bodyL / 2 - 0.6, 0, 2.0);
+  holder.add(body, band, legsMesh2(len, 2.0)); g.add(holder); return g;
+}
+function buildCap(p, pads) {
+  const g = new THREE.Group(); const a = pads['1'], b = pads['2'];
+  const cx = (a[0] + b[0]) / 2, cy = (a[1] + b[1]) / 2;
+  const holder = new THREE.Group(); holder.position.set(cx, cy, 0); holder.rotation.z = Math.atan2(b[1] - a[1], b[0] - a[0]);
+  if (p.kind === 'CP') {
+    const big = /470/.test(p.value);
+    const dia = big ? 8 : 5, high = big ? 11.5 : 11;
+    holder.add(cyl(dia / 2, high - 1, mat(COL.el16, { roughness: 0.4 }), 0, 0, 0.6));
+    holder.add(cyl(dia / 2 - 0.1, 0.5, mat(COL.alu, { metalness: 0.7, roughness: 0.3 }), 0, 0, high - 0.4));
+    holder.add(box(0.8, dia * 0.5, high - 3, mat(COL.stripe), -dia / 2 + 0.05, 0, 1.6));
+    holder.add(legs(`el${(big ? 3.5 : 2)}`, () => [bCyl(0.3, 1.2, -(big ? 1.75 : 1), 0, 0), bCyl(0.3, 1.2, (big ? 1.75 : 1), 0, 0)]));
+  } else {
+    const disc = new THREE.Mesh(once('disc', () => new THREE.CylinderGeometry(2.5, 2.5, 2.4, 20)), mat(COL.ceramic)); disc.position.set(0, 0, 4.6);
+    holder.add(disc, legs('discl', () => [bCyl(0.3, 4.0, -2.5, 0, 0), bCyl(0.3, 4.0, 2.5, 0, 0)]));
+  }
+  g.add(holder); return g;
+}
+function buildTO92(p, pads) {
+  const g = new THREE.Group(); const c = pads.B;
+  const body = new THREE.Mesh(once('to92', () => new THREE.CylinderGeometry(2.4, 2.4, 4.2, 18, 1, false, 0, Math.PI).rotateX(Math.PI / 2).rotateZ(Math.PI / 2)), mat(COL.black));
+  body.position.set(c[0], c[1], 3.4); g.add(body);
+  g.add(legs('to92l', () => [-1.27, 0, 1.27].map((x) => bCyl(0.3, 3.2, x, 0, 0))).translateX(c[0]).translateY(c[1]));
+  return g;
+}
 
-function resistorTexture(bands) {
-  const key = 'rt' + bands.join();
-  return once(key, () => {
-    const c = document.createElement('canvas'); c.width = 4; c.height = 128;
-    const x = c.getContext('2d');
-    x.fillStyle = '#' + COL.resistor.toString(16); x.fillRect(0, 0, 4, 128);
-    const L = 6.3, at = [0.9, 1.8, 2.7, 3.6, 5.3];
-    bands.forEach((b, i) => { x.fillStyle = '#' + BAND[b].toString(16).padStart(6, '0'); x.fillRect(0, (1 - (at[i] + 0.3) / L) * 128, 4, (0.6 / L) * 128); });
-    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+// sockets and modules ------------------------------------------------------------------------------------------------------------------------
+function picoTexture() {
+  const L = ['GP0', 'GP1', 'GND', 'GP2', 'GP3', 'GP4', 'GP5', 'GND', 'GP6', 'GP7', 'GP8', 'GP9', 'GND', 'GP10', 'GP11', 'GP12', 'GP13', 'GND', 'GP14', 'GP15'];
+  const R = ['GP16', 'GP17', 'GND', 'GP18', 'GP19', 'GP20', 'GP21', 'GND', 'GP22', 'RUN', 'GP26', 'GP27', 'AGND', 'GP28', 'VREF', '3V3', '3V3_EN', 'GND', 'VSYS', 'VBUS'];
+  const used = new Set(['GP9', 'GP10', 'GP11', 'GP15', 'GP16', 'GP17', 'GP18', 'GP19', 'AGND', '3V3', 'GND', 'VSYS']);
+  return canvasTex(210, 520, (x, w, h) => {
+    x.fillStyle = '#1f7a4a'; x.fillRect(0, 0, w, h);
+    x.fillStyle = '#d8efe0'; x.font = '600 13px Helvetica, Arial, sans-serif'; x.textAlign = 'center';
+    x.fillText('Raspberry Pi Pico 2', w / 2, h * 0.58); x.font = '11px Helvetica, Arial, sans-serif'; x.fillText('RP2350', w / 2, h * 0.58 + 16);
+    x.font = '600 10px Helvetica, Arial, sans-serif';
+    for (let i = 0; i < 20; i++) {
+      const y = 22 + i * (h - 44) / 19;
+      x.textAlign = 'left'; x.fillStyle = used.has(L[i]) ? '#ffe27a' : '#a9d2b8'; x.fillText(L[i], 16, y + 4);
+      x.textAlign = 'right'; x.fillStyle = used.has(R[19 - i]) ? '#ffe27a' : '#a9d2b8'; x.fillText(R[19 - i], w - 16, y + 4);
+    }
+    x.fillStyle = '#e8c534'; for (let i = 0; i < 20; i++) { const y = 22 + i * (h - 44) / 19; x.fillRect(2, y - 3, 7, 7); x.fillRect(w - 9, y - 3, 7, 7); }
   });
 }
+function buildPico() {
+  const g = new THREE.Group();
+  const pitch = 2.54, len = 50.8 + 2.6, wid = 17.78 + 3.2;
+  // sockets (two PBS-20 strips) and pins
+  for (const sx of [-17.78 / 2, 17.78 / 2]) g.add(box(2.54, 50.8, 8.5, mat(COL.socket), sx, 0, 0));
+  const top = 8.5;
+  const pcb = new THREE.Mesh(new THREE.BoxGeometry(wid, len, 1.0), [mat(COL.pico), mat(COL.pico), mat(COL.pico), mat(COL.pico), new THREE.MeshStandardMaterial({ map: picoTexture(), roughness: 0.6 }), mat(COL.pico)]);
+  pcb.position.set(0, 0, top + 0.5); g.add(pcb);
+  g.add(box(7.5, 5.5, 2.8, mat(COL.alu, { metalness: 0.7, roughness: 0.3 }), 0, len / 2 - 1.8, top + 1.0));    // USB connector at the top
+  g.add(box(7, 7, 0.9, mat(COL.black), 0, -1, top + 1.0));                                                       // RP2350
+  g.add(box(5, 4, 0.9, mat(COL.black), 0, -9, top + 1.0));                                                       // flash
+  g.add(box(4, 3.5, 1.3, mat(0xf0f0f0), -3.5, len / 2 - 11, top + 1.0));                                         // BOOTSEL
+  return g;
+}
+function buildMCP() {
+  const g = new THREE.Group();
+  g.add(box(10.16 - 1.8 + 0.4, 20.3, 3.4, mat(COL.socket), 0, 0, 0));
+  g.add(box(6.4, 19.2, 3.4, mat(COL.black, { roughness: 0.35 }), 0, 0, 3.4));
+  const tex = canvasTex(64, 220, (x, w, h) => { x.fillStyle = '#e8ecee'; x.font = '600 18px Helvetica, Arial, sans-serif'; x.translate(w / 2, h / 2); x.rotate(Math.PI / 2); x.textAlign = 'center'; x.fillText('MCP3008', 0, -4); x.font = '12px Helvetica, Arial, sans-serif'; x.fillText('I/P', 0, 14); });
+  const lab = new THREE.Mesh(new THREE.PlaneGeometry(6.2, 19), new THREE.MeshBasicMaterial({ map: tex, transparent: true })); lab.position.set(0, 0, 6.85); g.add(lab);
+  g.add(cyl(0.5, 0.15, mat(0x9aa0a3), 2.3, 8.2, 6.8));
+  g.add(legs('dip16', () => { const a = []; for (let i = 0; i < 8; i++) for (const s of [-1, 1]) a.push(bBox(0.5, 0.6, 2.6, s * 3.9, -8.89 + i * 2.54, 0.5)); return a; }));
+  return g;
+}
+function buildAmp() {
+  const g = new THREE.Group();
+  g.add(box(17.8, 2.54, 8.5, mat(COL.socket), 0, 0, 0));                    // 1x7 socket along x
+  const tex = canvasTex(356, 420, (x, w, h) => {
+    x.fillStyle = '#b3262a'; x.fillRect(0, 0, w, h);
+    x.fillStyle = '#fff'; x.font = '600 24px Helvetica, Arial, sans-serif'; x.textAlign = 'center';
+    x.fillText('MAX98357A', w / 2, h * 0.55); x.font = '16px Helvetica, Arial, sans-serif'; x.fillText('I2S 3W Amp', w / 2, h * 0.55 + 24);
+    x.font = '600 16px Helvetica, Arial, sans-serif'; const names = ['VIN', 'GND', 'SD', 'GAIN', 'DIN', 'BCLK', 'LRC'];
+    names.forEach((n, i) => { x.fillText(n, (i + 0.5) * w / 7, 24); });
+    x.fillStyle = '#e8c534'; x.fillRect(w * 0.18, h - 36, 26, 26); x.fillRect(w * 0.7, h - 36, 26, 26);
+    x.fillStyle = '#fff'; x.fillText('+', w * 0.18 + 13, h - 44); x.fillText('−', w * 0.7 + 13, h - 44);
+  });
+  const pcb = new THREE.Mesh(new THREE.BoxGeometry(19.5, 21.5, 1.0), [mat(COL.red), mat(COL.red), mat(COL.red), mat(COL.red), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 }), mat(COL.red)]);
+  pcb.position.set(0, -11.5, 9.0); g.add(pcb);
+  g.add(box(3.2, 3.2, 0.8, mat(COL.black), 0, -11, 9.5));
+  return g;
+}
 
-// -- builders: local frame in millimetres, +z = away from the board --------------------------
-function buildResistor(p) {
-  const g = new THREE.Group();
-  const body = new THREE.Mesh(unitCyl, once('rm' + (p.bands || []).join(), () => new THREE.MeshStandardMaterial({ map: resistorTexture(p.bands || []), roughness: 0.6 })));
-  body.scale.set(1.3, 1.3, 6.3); body.position.set(-1.27, 0, 1.0 + 3.15); g.add(body);
-  g.add(legsMesh('res', () => [bCyl(0.28, 1.1, -1.27, 0, 0), bCyl(0.28, 8.4, 1.27, 0, 0), bBox(2.6, 0.55, 0.55, 0, 0, 8.1), bCyl(0.28, 0.9, -1.27, 0, 7.3)]));
-  return g;
-}
-function buildDiode(p) {
-  const g = new THREE.Group();
-  const big = p.value === '1N5819';
-  g.add(cyl(big ? 1.6 : 1.0, big ? 4.8 : 3.6, mat(big ? COL.black : COL.glass), -1.27, 0, 1.0));
-  g.add(cyl(big ? 1.66 : 1.06, 0.7, mat(big ? COL.alu : COL.black), -1.27, 0, big ? 5.1 : 3.9));
-  const top = big ? 7.2 : 6.0;
-  g.add(legsMesh('dio' + big, () => [bCyl(0.28, 1.1, -1.27, 0, 0), bCyl(0.28, top, 1.27, 0, 0), bBox(2.6, 0.55, 0.55, 0, 0, top - 0.3), bCyl(0.28, 0.8, -1.27, 0, big ? 5.8 : 4.6)]));
-  return g;
-}
-function buildCap(p) {
-  const g = new THREE.Group(); const fp = p.fp; const d = p.fp_dim;
-  if (fp === 'C_disc') {
-    const disc = new THREE.Mesh(once('disc', () => new THREE.CylinderGeometry(2.5, 2.5, 2.4, 20)), mat(COL.ceramic)); disc.position.set(0, 0, 4.6);
-    g.add(disc); g.add(legsMesh('discl', () => [bCyl(0.28, 4.0, -2.5, 0, 0), bCyl(0.28, 4.0, 2.5, 0, 0)])); return g;
-  }
-  if (fp.startsWith('C_film')) {
-    const pitch = { C_film_s: 5, C_film_m: 7.5, C_film_l: 10, C_film_xl: 22.5 }[fp];
-    g.add(box(d.w - 0.8, d.d - 0.6, d.h - 1.2, mat(COL.film), 0, 0, 1.2));
-    g.add(legsMesh('film' + pitch, () => [bCyl(0.28, 2, -pitch / 2, 0, 0), bCyl(0.28, 2, pitch / 2, 0, 0)]));
-    return g;
-  }
-  const diam = { C_el5: 5, C_el63: 6.3, C_el8: 8 }[fp];
-  const high = d.h; const pitch = { C_el5: 2, C_el63: 2.5, C_el8: 3.5 }[fp];
-  const sleeve = /25 В/.test(p.desc) ? COL.el25 : COL.el16;
-  g.add(cyl(diam / 2, high - 1.0, mat(sleeve, { roughness: 0.4 }), 0, 0, 0.6));
-  g.add(cyl(diam / 2 - 0.1, 0.5, mat(COL.alu, { metalness: 0.7, roughness: 0.3 }), 0, 0, high - 0.4));
-  g.add(box(0.8, diam * 0.5, high - 3, mat(COL.stripe), -diam / 2 + 0.05, 0, 1.6));
-  g.add(legsMesh('el' + pitch, () => [bCyl(0.28, 1.2, -pitch / 2, 0, 0), bCyl(0.28, 1.2, pitch / 2, 0, 0)]));
-  return g;
-}
-function buildIC(p) {
-  const g = new THREE.Group(); const d = p.fp_dim;
-  const n = { DIP8: 8, DIP14: 14, DIP16: 16 }[p.fp];
-  const bw = (n / 2) * 2.54 - 0.6;
-  g.add(box(d.w - 1.2, d.d - 1.6, 3.4, mat(COL.socket), 0, 0, 0.4));
-  g.add(box(bw, 6.3, 3.4, mat(COL.black, { roughness: 0.35 }), 0, 0, 3.8));
-  const dot = cyl(0.5, 0.15, mat(0x9aa0a3), -bw / 2 + 0.9, -2.2, 7.15); g.add(dot);
-  g.add(legsMesh('dip' + n, () => {
-    const a = [];
-    for (let i = 0; i < n / 2; i++) { const x = -((n / 2 - 1) * 2.54) / 2 + i * 2.54; for (const s of [-1, 1]) a.push(bBox(0.6, 0.5, 2.6, x, s * 3.9, 0.5)); }
-    return a;
-  }));
-  return g;
-}
-function buildTO92() {
-  const g = new THREE.Group();
-  const body = new THREE.Mesh(once('to92', () => new THREE.CylinderGeometry(2.4, 2.4, 4.2, 18, 1, false, 0, Math.PI).rotateX(Math.PI / 2).rotateZ(Math.PI / 2)), mat(COL.black));
-  body.position.set(0, 0, 3.4); g.add(body);
-  g.add(legsMesh('to92l', () => [-1.27, 0, 1.27].map((x) => bCyl(0.28, 3.2, x, 0, 0))));
-  return g;
-}
-function buildTrim(p) {
-  const g = new THREE.Group(); const d = p.fp_dim;
-  g.add(box(d.w - 1, d.d, 9.6, mat(COL.trim), 0, 0, 0.4));
-  g.add(cyl(2.0, 1.0, mat(COL.brass, { metalness: 0.7 }), 2.4, 0, 9.9));
-  return g;
-}
-function buildJack() {
-  const g = new THREE.Group();
-  g.add(box(14.5, 9.0, 10.8, mat(COL.black), 0, 0, 0.4));
-  const hole = new THREE.Mesh(once('jh', () => new THREE.CylinderGeometry(3.2, 3.2, 1, 20)), mat(0x050606)); hole.rotation.z = Math.PI / 2; hole.position.set(7.4, 0, 5.5); g.add(hole);
-  return g;
-}
-function buildPot(p) {   // front side of the board, bodies in the gap towards the panel
-  const g = new THREE.Group();
-  const dual = p.fp === 'POT9D', big = p.fp === 'POT16';
-  const r = big ? 8.0 : 4.75;
-  g.add(cyl(r, big ? 5.5 : 5.0, mat(0x2b2f32, { metalness: 0.4 }), 0, 0, 0));
-  g.add(cyl(big ? 5.5 : 3.5, 6.8, mat(COL.alu, { metalness: 0.7, roughness: 0.3 }), 0, 0, big ? 5.5 : 5.0));
-  if (dual) g.add(cyl(4.75, 5.0, mat(0x2b2f32, { metalness: 0.4 }), 0, 0, -5.0));
+// panel side -------------------------------------------------------------------------------------------------------------------------------------------
+function buildPot() {
+  const g = new THREE.Group();   // z: 0 at the back of the panel, negative = rearwards (device frame)
+  g.add(cyl(4.75, 5.0, mat(0x2b2f32, { metalness: 0.4 }), 0, 0, -5.0));
+  g.add(cyl(3.0, 5.0, mat(COL.alu, { metalness: 0.7, roughness: 0.3 }), 0, 0, 0));
+  g.add(new THREE.Mesh(once('lug', () => mergeGeometries([-5, 0, 5].map((x) => bCyl(0.4, 3.5, x, -7.5, -8.5)))), metal()));
   return g;
 }
 function buildSwitch() {
   const g = new THREE.Group();
-  g.add(box(12, 12, 6, mat(0x2b2f32), 0, 0, 0));
-  g.add(box(8, 8, 3, mat(COL.alu, { metalness: 0.5 }), 0, 0, 6));
+  g.add(cyl(6.5, 6.0, mat(0x2b2f32), 0, 0, -6.0));
+  g.add(new THREE.Mesh(once('swl', () => mergeGeometries([-3, 3].map((x) => bCyl(0.4, 3.0, x, -6.5, -9)))), metal()));
   return g;
 }
 function buildLED() {
   const g = new THREE.Group();
-  g.add(cyl(1.5, 4.5, mat(0x7fe0d8, { transparent: true, opacity: 0.85, emissive: 0x00cfc1, emissiveIntensity: 0.25 }), 0, 0, 0));
+  g.add(cyl(1.5, 5.0, mat(0x7fe0d8, { transparent: true, opacity: 0.85, emissive: 0x00cfc1, emissiveIntensity: 0.3 }), 0, 0, -5.0));
+  g.add(new THREE.Mesh(once('ledl', () => mergeGeometries([-1.27, 1.27].map((x) => bCyl(0.3, 4.5, x, -4, -9.5)))), metal()));
+  return g;
+}
+function buildJack() {
+  const g = new THREE.Group();   // x axis = into the case, jack on the right wall
+  g.add(box(14, 9, 11, mat(COL.black), -11, 0, -5.5));
+  g.add(new THREE.Mesh(once('jh', () => new THREE.CylinderGeometry(3.2, 3.2, 1, 20).rotateZ(Math.PI / 2)), mat(0x050606)));
+  g.children[1].position.set(-4.2, 0, 0);
+  g.add(new THREE.Mesh(once('jl', () => mergeGeometries([bCyl(0.4, 3, -16, 3, -7), bCyl(0.4, 3, -16, -3, -7)])), metal()));
   return g;
 }
 
-const BUILDERS = { R: buildResistor, D: buildDiode, LED: buildLED, C: buildCap, IC: buildIC, Q: buildTO92, POT: (p) => (p.fp === 'TRIM' ? buildTrim(p) : buildPot(p)), J: buildJack, SW: buildSwitch };
-
-function labelTexture(text, w = 128, h = 40, fg = '#e8ecee') {
-  const c = document.createElement('canvas'); c.width = w; c.height = h;
-  const x = c.getContext('2d'); x.fillStyle = fg; x.font = `600 ${h * 0.5}px Helvetica, Arial, sans-serif`;
-  x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(text, w / 2, h / 2);
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
-}
-
-function silkTexture() {
-  const B = hw.board, S = 10;               // px per mm
-  const W = Math.round((B.x1 - B.x0) * S), H = Math.round((B.y1 - B.y0) * S);
-  const c = document.createElement('canvas'); c.width = W; c.height = H;
-  const x = c.getContext('2d');
-  x.fillStyle = '#eef0ec'; x.fillRect(0, 0, W, H);
-  // viewed from the rear: device x is mirrored on screen
-  const px = (X) => (B.x1 - X) * S, py = (Y) => (B.y1 - Y) * S;
-  x.strokeStyle = COL.silk; x.fillStyle = COL.silk; x.lineWidth = 3;
-  x.font = '600 38px Helvetica, Arial, sans-serif'; x.textBaseline = 'top';
-  x.fillText('SURF SYNTH · rev A', 40, 36);
-  x.font = '400 26px Helvetica, Arial, sans-serif';
-  x.fillText('12 V DC, centre +   ·   вид со стороны деталей', 40, 82);
-  x.lineWidth = 2.5;
-  for (const p of hw.parts) {
-    if (p.side !== 'rear') continue;
-    const w = p.fp_dim.w * S, d = p.fp_dim.d * S;
-    x.strokeRect(px(p.x) - w / 2 + 6, py(p.y) - d / 2 + 6, w - 12, d - 12);
-    x.font = `600 ${p.type === 'IC' ? 26 : 20}px Helvetica, Arial, sans-serif`;
-    x.textAlign = 'center'; x.textBaseline = 'middle';
-    if (p.type !== 'IC') x.fillText(p.ref, px(p.x), py(p.y) + d / 2 + 14);
-    else x.fillText(p.ref, px(p.x), py(p.y) - d / 2 - 16);
-  }
-  // mounting holes
-  x.fillStyle = '#9aa0a3';
-  for (const sx of [B.x0 + 4, B.x1 - 4]) for (const sy of [B.y0 + 4, B.y1 - 4]) { x.beginPath(); x.arc(px(sx), py(sy), 16, 0, 7); x.fill(); x.fillStyle = '#fff'; x.beginPath(); x.arc(px(sx), py(sy), 8, 0, 7); x.fill(); x.fillStyle = '#9aa0a3'; }
-  // solder pads of the panel-mounted parts (soldered from the rear)
-  x.fillStyle = '#c9a43c';
-  const pads = (cx, cy, offs) => offs.forEach(([dx, dy]) => { x.beginPath(); x.arc(px(cx + dx), py(cy + dy), 8, 0, 7); x.fill(); });
-  for (const p of hw.parts) {
-    if (p.side !== 'front') continue;
-    if (p.ref === 'RV5') pads(p.x, p.y - 9.5, [[-5, 0], [0, 0], [5, 0]]);
-    else if (p.ref === 'RV3' || p.ref === 'RV4') pads(p.x, p.y - 7.5, [[-2.5, 0], [0, 0], [2.5, 0]]);
-    else if (p.ref === 'RV6A') pads(p.x, p.y - 9, [[-2.5, 0], [0, 0], [2.5, 0], [-2.5, 4.5], [0, 4.5], [2.5, 4.5]]);
-    else if (p.ref === 'SW1') pads(p.x, p.y, [[-4.5, -4.5], [4.5, -4.5], [-4.5, 4.5], [4.5, 4.5]]);
-    else if (p.ref === 'D10') pads(p.x, p.y, [[-1.27, 0], [1.27, 0]]);
-  }
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
-}
-
+// ---- the whole interior ---------------------------------------------------------------------------------------------------------------
 export function createInterior(housingMat) {
   const root = new THREE.Group();
-  const B = hw.board;
-  const bw = (B.x1 - B.x0) * MM, bh = (B.y1 - B.y0) * MM, bcx = ((B.x0 + B.x1) / 2) * MM, bcy = ((B.y0 + B.y1) / 2) * MM;
   const D = 1.5, W = 7.4, H = 3.9;
-  const zPanelBack = D / 2 - T_PANEL, zPcbFront = zPanelBack - GAP, zPcbRear = zPcbFront - PCB_T;
+  const zPB = D / 2 - T_PANEL;                  // back face of the panel (scene units)
 
-  // --- case shell and lid ------------------------------------------------------------------------
-  const shape = new THREE.Shape(); const rr = (s, w, h, r) => {
+  // case shell, panel and lid
+  const shape = new THREE.Shape();
+  const rr = (s, w, h, r) => {
     s.moveTo(-w / 2 + r, -h / 2); s.lineTo(w / 2 - r, -h / 2); s.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
     s.lineTo(w / 2, h / 2 - r); s.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2); s.lineTo(-w / 2 + r, h / 2);
     s.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r); s.lineTo(-w / 2, -h / 2 + r); s.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
   };
   rr(shape, W, H, 0.2);
-  const hole = new THREE.Path(); rr(hole, W - 2 * T_WALL, H - 2 * T_WALL, 0.08); shape.holes.push(hole);
-  const ringDepth = D - T_PANEL - T_LID;
-  const ring = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth: ringDepth, bevelEnabled: false, curveSegments: 10 }), housingMat);
+  const inner = new THREE.Path(); rr(inner, W - 2 * T_WALL, H - 2 * T_WALL, 0.08); shape.holes.push(inner);
+  const ring = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth: D - T_PANEL - T_LID, bevelEnabled: false, curveSegments: 10 }), housingMat);
   ring.position.z = -D / 2 + T_LID; ring.castShadow = true; ring.receiveShadow = true;
   const panel = new THREE.Mesh(new RoundedBoxGeometry(W, H, T_PANEL, 6, 0.04), housingMat);
   panel.position.z = D / 2 - T_PANEL / 2; panel.castShadow = true; panel.receiveShadow = true;
   const lid = new THREE.Mesh(new RoundedBoxGeometry(W, H, T_LID, 6, 0.04), housingMat);
   lid.position.z = -D / 2 + T_LID / 2; lid.castShadow = true;
-  const shell = new THREE.Group(); shell.add(ring, panel);
-  root.add(shell, lid);
+  root.add(ring, panel, lid);
 
-  // --- PCB -----------------------------------------------------------------------------------------
-  const pcbMat = new THREE.MeshStandardMaterial({ color: COL.pcb, roughness: 0.6 });
-  const pcb = new THREE.Mesh(new THREE.BoxGeometry(bw, bh, PCB_T), [pcbMat, pcbMat, pcbMat, pcbMat, pcbMat, pcbMat]);
-  pcb.position.set(bcx, bcy, zPcbFront - PCB_T / 2); pcb.castShadow = true; pcb.receiveShadow = true;
-  const silk = new THREE.Mesh(new THREE.PlaneGeometry(bw, bh), new THREE.MeshStandardMaterial({ map: silkTexture(), roughness: 0.7, transparent: true }));
-  silk.rotation.y = Math.PI; silk.position.set(bcx, bcy, zPcbRear - 0.002);
-  root.add(pcb, silk);
+  // frame helpers: everything below is placed in device mm and converted
+  const toU = (g) => { g.scale.multiplyScalar(MM); return g; };
+  const panelFrame = new THREE.Group(); panelFrame.position.z = zPB; root.add(panelFrame);   // z in mm, negative = rear
+  panelFrame.scale.setScalar(MM);
+
+  // perfboard
+  const zTop = -(B.standoff + PCB_T);                               // component side, mm from panel back
+  const sx = B.w, sy = B.h;
+  const pcbTex = canvasTex(Math.round(sx * 12), Math.round(sy * 12), (x, w, h) => {
+    const S = 12; x.fillStyle = '#2a7b57'; x.fillRect(0, 0, w, h);
+    for (let c = 0; c < B.cols; c++) for (let r = 0; r < B.rows; r++) {
+      const px = (sx / 2 + (c - (B.cols - 1) / 2) * B.pitch) * S, py = (sy / 2 + (r - (B.rows - 1) / 2) * B.pitch) * S;
+      x.fillStyle = '#d7b44a'; x.beginPath(); x.arc(px, py, 3.4, 0, 7); x.fill();
+      x.fillStyle = '#143d2b'; x.beginPath(); x.arc(px, py, 1.5, 0, 7); x.fill();
+    }
+    // silkscreen frames of the big parts
+    x.strokeStyle = '#f4f6f2'; x.lineWidth = 2; x.fillStyle = '#f4f6f2'; x.font = '600 14px Helvetica, Arial, sans-serif'; x.textAlign = 'center';
+    const hp = (c, r) => [(sx / 2 + (c - (B.cols - 1) / 2) * B.pitch) * S, (sy / 2 + (r - (B.rows - 1) / 2) * B.pitch) * S];
+    const rect = (c0, r0, c1, r1, label) => { const a = hp(c0, r0), b = hp(c1, r1); x.strokeRect(a[0] - 12, a[1] - 12, b[0] - a[0] + 24, b[1] - a[1] + 24); x.fillText(label, (a[0] + b[0]) / 2, b[1] + 28); };
+    rect(3, 3, 10, 22, 'U1 Pico 2'); rect(16, 5, 19, 12, 'U2 MCP3008'); rect(3, 25, 9, 25, 'U3 MAX98357A');
+    x.font = '600 12px Helvetica, Arial, sans-serif';
+    for (const p of hw.parts) {
+      if (p.side !== 'rear' || !p.pads) continue;
+      const q = Object.values(p.pads); const cx = q.reduce((s2, v) => s2 + v[0], 0) / q.length, cy = q.reduce((s2, v) => s2 + v[1], 0) / q.length;
+      // pad coordinates are device mm: convert to canvas (rear view: x mirrored)
+      const X = (B.cx + sx / 2 - cx) * S, Y = (B.cy + sy / 2 - cy) * S;
+      x.fillText(p.ref, X, Y - 22);
+    }
+    x.font = '600 20px Helvetica, Arial, sans-serif'; x.textAlign = 'left'; x.fillText('SURF SYNTH · цифровая версия', 20, 30);
+  });
+  const boardMats = [mat(COL.board), mat(COL.board), mat(COL.board), mat(COL.board), mat(COL.board), mat(COL.board)];
+  const pcb = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, PCB_T), boardMats);
+  pcb.position.set(B.cx, B.cy, -B.standoff - PCB_T / 2);
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(sx, sy), new THREE.MeshStandardMaterial({ map: pcbTex, roughness: 0.6 }));
+  face.rotation.y = Math.PI; face.position.set(B.cx, B.cy, zTop - 0.01);
+  panelFrame.add(pcb, face);
   // standoffs
-  for (const sx of [B.x0 + 4, B.x1 - 4]) for (const sy of [B.y0 + 4, B.y1 - 4]) {
-    const s = new THREE.Mesh(new THREE.CylinderGeometry(3 * MM, 3 * MM, GAP + 0.03, 6).rotateX(Math.PI / 2), mat(COL.brass, { metalness: 0.7, roughness: 0.4 }));
-    s.position.set(sx * MM, sy * MM, zPanelBack - (GAP + 0.03) / 2); root.add(s);
+  for (const dx of [-1, 1]) for (const dy of [-1, 1]) {
+    const x = B.cx + dx * (sx / 2 - 3.8), y = B.cy + dy * (sy / 2 - 3.8);
+    panelFrame.add(cyl(2.75, B.standoff, mat(COL.brass, { metalness: 0.7, roughness: 0.4 }), x, y, -B.standoff));
   }
 
-  // --- speaker ------------------------------------------------------------------------------------
-  const spk = new THREE.Group();
-  const spkR = 33 * MM;
-  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(spkR - 3 * MM, 3 * MM, 10, 40), mat(0x24282b));
-  const cone = new THREE.Mesh(new THREE.CylinderGeometry(spkR - 5 * MM, 12 * MM, 12 * MM, 36, 1, true).rotateX(Math.PI / 2), mat(0x3b4145, { side: THREE.DoubleSide }));
-  cone.position.z = -6 * MM;
-  const dust = new THREE.Mesh(new THREE.SphereGeometry(10 * MM, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2).rotateX(-Math.PI / 2), mat(0x2b3033));
-  dust.position.z = -11 * MM;
-  const magnet = new THREE.Mesh(new THREE.CylinderGeometry(19 * MM, 19 * MM, 14 * MM, 28).rotateX(Math.PI / 2), mat(0x16191b, { roughness: 0.4 }));
-  magnet.position.z = -20 * MM;
-  const frame = new THREE.Mesh(new THREE.CylinderGeometry(spkR - 3 * MM, 22 * MM, 14 * MM, 32, 1, true).rotateX(Math.PI / 2), mat(0x7a8084, { side: THREE.DoubleSide, metalness: 0.5, roughness: 0.4 }));
-  frame.position.z = -9 * MM;
-  spk.add(ring2, cone, dust, magnet, frame);
-  spk.position.set(-2.15 * hw.unit_mm * MM, -0.05 * hw.unit_mm * MM, zPanelBack);
-  spk.userData.ref = 'SPK1';
-  root.add(spk);
-  const spkPos = spk.position.clone();
-  // wires speaker -> board
-  const mkWire = (pts, color) => {
-    const curve = new THREE.CatmullRomCurve3(pts.map((p) => new THREE.Vector3(...p)));
-    const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 24, 0.012, 6, false), mat(color, { roughness: 0.5 }));
-    root.add(m);
-  };
-  const u8 = hw.parts.find((p) => p.ref === 'U8');
-  const wx = (B.x0 + 2) * MM;
-  mkWire([[spkPos.x + 0.05, spkPos.y - 0.2, spkPos.z - 0.65], [spkPos.x + 0.6, spkPos.y - 0.7, zPcbRear - 0.25], [wx - 0.2, u8.y * MM, zPcbRear - 0.16], [wx, u8.y * MM + 0.1, zPcbRear - 0.02]], 0xc0392b);
-  mkWire([[spkPos.x + 0.12, spkPos.y - 0.22, spkPos.z - 0.65], [spkPos.x + 0.65, spkPos.y - 0.75, zPcbRear - 0.3], [wx - 0.25, u8.y * MM - 0.1, zPcbRear - 0.2], [wx, u8.y * MM, zPcbRear - 0.02]], 0x1d2022);
-
-  // --- parts -------------------------------------------------------------------------------------------------------------
-  const rear = new THREE.Group(); rear.position.z = zPcbRear; rear.scale.z = -1; root.add(rear);
-  const front = new THREE.Group(); front.position.z = zPcbFront; root.add(front);
-  const labelGroup = new THREE.Group(); root.add(labelGroup);
-  const byRef = {}, proxies = [];
-  const proxyMat = new THREE.MeshBasicMaterial({ visible: false });
+  // components on the rear side of the board
+  const rear = new THREE.Group(); rear.position.z = zTop; rear.scale.z = -1; panelFrame.add(rear);
+  const padsOf = (p, absolute) => Object.fromEntries(Object.entries(p.pads || {}).map(([k, v]) => [k, [v[0], v[1]]]));
+  const holders = {};
+  const hole = (c, r) => [B.cx - (c - (B.cols - 1) / 2) * B.pitch, B.cy + ((B.rows - 1) / 2 - r) * B.pitch];
   for (const p of hw.parts) {
-    const type = p.type === 'POT' && p.fp === 'TRIM' ? 'POT' : p.type;
-    const build = BUILDERS[type];
-    if (!build) continue;
-    let g = build(p);
-    g.scale.setScalar(MM);
-    // pots: the dual one has two gangs in one body — only build once
-    if (p.ref === 'RV6B') continue;
-    const holder = new THREE.Group(); holder.add(g);
-    holder.position.set(p.x * MM, p.y * MM, 0);
-    holder.userData.ref = p.ref;
-    (p.side === 'rear' ? rear : front).add(holder);
-    byRef[p.ref] = holder;
-    // pick proxy (device space)
-    const d = p.fp_dim; const hgt = (type === 'POT' && p.side === 'front' ? 12 : d.h) * MM;
-    const proxy = new THREE.Mesh(unitBox, proxyMat);
-    proxy.scale.set(d.w * MM, d.d * MM, hgt);
-    const zc = p.side === 'rear' ? zPcbRear - hgt / 2 : zPcbFront + hgt / 2;
-    proxy.position.set(p.x * MM, p.y * MM, zc);
-    proxy.userData.ref = p.ref; proxy.userData.box = [d.w * MM, d.d * MM, hgt];
-    root.add(proxy); proxies.push(proxy);
-    if (p.type === 'IC') {
-      const tex = labelTexture(p.value, 160, 40);
-      const lab = new THREE.Mesh(new THREE.PlaneGeometry(((p.fp === 'DIP8' ? 8 : p.fp === 'DIP14' ? 14 : 16) / 2) * 2.54 * MM - 0.12, 0.17), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
-      lab.rotation.y = Math.PI; lab.position.set(p.x * MM, p.y * MM, zPcbRear - 7.3 * MM); labelGroup.add(lab);
+    let g = null, host = rear, pos = [p.x, p.y, 0];
+    if (p.side === 'rear') {
+      if (p.type === 'R') g = buildResistor(p, padsOf(p));
+      else if (p.type === 'D') g = buildDiode(p, padsOf(p));
+      else if (p.type === 'C') g = buildCap(p, padsOf(p));
+      else if (p.type === 'Q') g = buildTO92(p, padsOf(p));
+      else if (p.type === 'PICO') { g = buildPico(); pos = [p.x, p.y, 0]; }
+      else if (p.type === 'MCP') { g = buildMCP(); pos = [p.x, p.y, 0]; }
+      else if (p.type === 'AMP') { g = buildAmp(); pos = [p.x, hole(0, 25)[1], 0]; }
+      if (!g) continue;
+      const holder = new THREE.Group();
+      holder.add(g);
+      if (['R', 'D', 'C', 'Q'].includes(p.type)) holder.position.set(0, 0, 0);   // these are built in absolute mm
+      else holder.position.set(pos[0], pos[1], 0);
+      host.add(holder); holders[p.ref] = holder;
+    } else if (p.side === 'panel') {
+      if (p.type === 'POT') g = buildPot();
+      else if (p.type === 'SW') g = buildSwitch();
+      else if (p.type === 'LED') g = buildLED();
+      if (!g) continue;
+      const holder = new THREE.Group(); holder.add(g); holder.position.set(p.x, p.y, 0);
+      panelFrame.add(holder); holders[p.ref] = holder;
+    } else if (p.side === 'wall') {
+      const holder = new THREE.Group(); holder.add(buildJack()); holder.position.set(p.x, p.y, -14);
+      panelFrame.add(holder); holders[p.ref] = holder;
     }
   }
-  // resistor / generic highlight outlines
-  const outlineMat = new THREE.MeshBasicMaterial({ color: 0x00cfc1, transparent: true, opacity: 0.38, depthTest: false });
+  // the amplifier module sits with its header along a board row
+  if (holders.U3) { holders.U3.position.set(hole(6, 25)[0], hole(6, 25)[1], 0); holders.U3.rotation.z = 0; }
+  if (holders.U1) holders.U1.position.set((hole(3, 12)[0] + hole(10, 12)[0]) / 2, (hole(3, 3)[1] + hole(3, 22)[1]) / 2, 0);
+  if (holders.U2) holders.U2.position.set((hole(16, 5)[0] + hole(19, 5)[0]) / 2, (hole(16, 5)[1] + hole(16, 12)[1]) / 2, 0);
+
+  // speaker on the panel (left)
+  const spk = new THREE.Group();
+  const spkR = 32;
+  spk.add(new THREE.Mesh(new THREE.TorusGeometry(spkR - 3, 3, 10, 40), mat(0x24282b)));
+  const cone = new THREE.Mesh(new THREE.CylinderGeometry(spkR - 5, 12, 12, 36, 1, true).rotateX(Math.PI / 2), mat(0x3b4145, { side: THREE.DoubleSide })); cone.position.z = -6;
+  const dust = new THREE.Mesh(new THREE.SphereGeometry(10, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2).rotateX(-Math.PI / 2), mat(0x2b3033)); dust.position.z = -11;
+  const magnet = new THREE.Mesh(new THREE.CylinderGeometry(18, 18, 12, 28).rotateX(Math.PI / 2), mat(0x16191b, { roughness: 0.4 })); magnet.position.z = -19;
+  const frame = new THREE.Mesh(new THREE.CylinderGeometry(spkR - 3, 21, 13, 32, 1, true).rotateX(Math.PI / 2), mat(0x7a8084, { side: THREE.DoubleSide, metalness: 0.5, roughness: 0.4 })); frame.position.z = -9;
+  spk.add(cone, dust, magnet, frame);
+  const spkP = hw.parts.find((p) => p.ref === 'SPK1');
+  spk.position.set(spkP.x, spkP.y, 0); panelFrame.add(spk); holders.SPK1 = spk;
+
+  // wires -----------------------------------------------------------------------------------------------------------------------------------------------------
+  const wireGroup = new THREE.Group(); panelFrame.add(wireGroup);
+  const wires = [];
+  const bx0 = B.cx - sx / 2, bx1 = B.cx + sx / 2, by0 = B.cy - sy / 2, by1 = B.cy + sy / 2;
+  function route(w) {
+    const P = new THREE.Vector3(...w.p), Q = new THREE.Vector3(...w.q);
+    const onBoard = (v) => Math.abs(v.z - zTop) < 0.5;
+    const pts = [];
+    const lift = (v) => new THREE.Vector3(v.x, v.y, v.z - 1.2);
+    const around = (v) => {
+      // go from a point in front of the board around its nearest edge to the rear side
+      const dxl = v.x - bx0, dxr = bx1 - v.x, dyb = v.y - by0, dyt = by1 - v.y, m = Math.min(dxl, dxr, dyb, dyt);
+      let ex = v.x, ey = v.y;
+      if (m === dxl) ex = bx0 - 1.5; else if (m === dxr) ex = bx1 + 1.5; else if (m === dyb) ey = by0 - 1.5; else ey = by1 + 1.5;
+      return [new THREE.Vector3(v.x, v.y, v.z), new THREE.Vector3(ex, ey, v.z), new THREE.Vector3(ex, ey, zTop - 3)];
+    };
+    if (onBoard(P) && onBoard(Q)) {
+      const len = P.distanceTo(Q), h = Math.min(2.5 + len * 0.1, 11);
+      pts.push(P, lift(P), new THREE.Vector3((P.x + Q.x) / 2, (P.y + Q.y) / 2, zTop - h), lift(Q), Q);
+    } else {
+      const panelPt = onBoard(P) ? Q : P, boardPt = onBoard(P) ? P : Q;
+      const a = around(panelPt);
+      pts.push(...a, new THREE.Vector3(boardPt.x, boardPt.y, zTop - 5), boardPt);
+      if (!onBoard(P)) { /* order is panel -> board already */ } else pts.reverse();
+    }
+    return pts;
+  }
+  const wireMatCache = {};
+  for (const w of hw.wires) {
+    const curve = new THREE.CatmullRomCurve3(route(w), false, 'catmullrom', 0.4);
+    const col = w.color;
+    const m = (wireMatCache[col] ||= new THREE.MeshStandardMaterial({ color: col, roughness: 0.5, emissive: 0x000000 }));
+    const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, 28, w.kind === 'harness' ? 0.55 : 0.4, 6, false), m);
+    mesh.userData = { net: w.net, a: w.a.split('.')[0], b: w.b.split('.')[0] };
+    wireGroup.add(mesh); wires.push(mesh);
+  }
+
+  // pick proxies from bounding boxes, in scene space ----------------------------------------------------------------------------------------
+  root.updateMatrixWorld(true);
+  const proxies = [];
+  const proxyMat = new THREE.MeshBasicMaterial({ visible: false });
+  const proxyHost = new THREE.Group(); root.add(proxyHost);
+  for (const [ref, holder] of Object.entries(holders)) {
+    const bb = new THREE.Box3().setFromObject(holder);
+    if (bb.isEmpty()) continue;
+    const size = bb.getSize(new THREE.Vector3()), ctr = bb.getCenter(new THREE.Vector3());
+    const m = new THREE.Mesh(unitBox, proxyMat);
+    // root is positioned at the origin of its parent (device); compute in root space
+    const inv = new THREE.Matrix4().copy(root.matrixWorld).invert();
+    const c2 = ctr.clone().applyMatrix4(inv);
+    m.scale.copy(size); m.position.copy(c2); m.userData.ref = ref;
+    proxyHost.add(m); proxies.push(m);
+  }
+
+  const outlineMat = new THREE.MeshBasicMaterial({ color: 0x00cfc1, transparent: true, opacity: 0.4, depthTest: false });
   const outlines = [];
-  const outlineBox = new THREE.BoxGeometry(1, 1, 1);
+  const hotMat = new THREE.MeshStandardMaterial({ color: 0x35ffe8, emissive: 0x00cfc1, emissiveIntensity: 1.0, roughness: 0.4 });
+  const dimMats = {};
+  wires.forEach((w) => { w.userData.base = w.material; });
+  const dimOf = (w) => (dimMats[w.userData.base.color.getHex()] ||= new THREE.MeshStandardMaterial({ color: w.userData.base.color, transparent: true, opacity: 0.16, roughness: 0.6, depthWrite: false }));
+  function paintWires(isHot) {
+    const any = wires.some(isHot);
+    for (const w of wires) w.material = !any ? w.userData.base : (isHot(w) ? hotMat : dimOf(w));
+  }
   function highlight(refs) {
     outlines.forEach((o) => { o.visible = false; });
+    const set = new Set(refs);
     let i = 0;
-    for (const ref of refs) {
-      const prox = proxies.find((p) => p.userData.ref === ref) || (ref === 'RV6' ? proxies.find((p) => p.userData.ref === 'RV6A') : null);
-      if (!prox && ref !== 'SPK1') continue;
-      const o = (outlines[i] ||= (() => { const m = new THREE.Mesh(outlineBox, outlineMat); m.renderOrder = 10; root.add(m); return m; })());
-      if (ref === 'SPK1') { o.scale.set(spkR * 2, spkR * 2, 0.5); o.position.set(spkPos.x, spkPos.y, spkPos.z - 0.25); }
-      else { o.scale.set(prox.scale.x + 0.05, prox.scale.y + 0.05, prox.scale.z + 0.03); o.position.copy(prox.position); }
-      o.visible = true; i++;
+    for (const ref of set) {
+      const prox = proxies.find((p) => p.userData.ref === ref);
+      if (!prox) continue;
+      const o = (outlines[i] ||= (() => { const mm = new THREE.Mesh(unitBox, outlineMat); mm.renderOrder = 10; root.add(mm); return mm; })());
+      o.scale.copy(prox.scale).addScalar(0.04); o.position.copy(prox.position); o.visible = true; i++;
     }
+    paintWires((w) => set.has(w.userData.a) || set.has(w.userData.b));
   }
+  function highlightNet(net) {
+    outlines.forEach((o) => { o.visible = false; });
+    paintWires((w) => w.userData.net === net);
+  }
+  function clear() { highlight([]); }
 
   return {
-    root, lid, shell, pcbMat, proxies, highlight, byRef, labelGroup,
-    set xray(on) { pcbMat.transparent = on; pcbMat.opacity = on ? 0.28 : 1; silk.visible = !on || true; },
+    root, lid, proxies, highlight, highlightNet, clear, holders,
+    set xray(on) { pcb.material.forEach((m) => { m.transparent = on; m.opacity = on ? 0.3 : 1; }); face.visible = !on; },
     lidClosedZ: lid.position.z,
   };
 }

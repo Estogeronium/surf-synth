@@ -104,6 +104,12 @@
     .sheetview svg { display: block; max-width: none; }
     .blocks { overflow-x: auto; border: 1px solid #e1e4e3; border-radius: 6px; margin: 8px 0; }
     .blocks svg { width: 920px; height: auto; display: block; }
+    .net { display: grid; grid-template-columns: 108px 1fr; gap: 8px; padding: 7px 0; border-bottom: 1px solid #eceeed; align-items: baseline; }
+    .net span { color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
+    .netname { font: inherit; font-weight: 600; font-size: 12px; text-align: left; padding: 3px 8px; border-radius: 999px; border: 1px solid #cfd5d4; background: #fff; cursor: pointer; }
+    .netname:hover { border-color: var(--accent); }
+    .chk { color: #8a6d00; }
+    .panel a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 2px; }
     .tip { position: fixed; z-index: 6; pointer-events: none; background: #2b3033; color: #fff; font-size: 12px; padding: 5px 9px; border-radius: 6px; max-width: 260px; line-height: 1.35; }
     .tip small { color: #aeb6b9; display: block; }
     @media (max-width: 860px) {
@@ -151,7 +157,6 @@
   <footer class="caption">
     <span class="hint">Розовый шум морского прибоя</span>
     <span class="credit">Женя Звягин &middot; <a href="https://vonzvyagin.ru" target="_blank" rel="noopener">vonzvyagin.ru</a></span>
-    <span class="hint hint-end" id="hintEnd">Тяните ручки &middot; Shift — точнее</span>
   </footer>
 
   <script type="module" src="/src/main.js"></script>
