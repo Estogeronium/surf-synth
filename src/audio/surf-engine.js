@@ -13,7 +13,7 @@ const PARAM_DEFAULTS = { surf: 0.5, tide: 0.45, tone: 0.5, volume: 0.6 };
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 
-// Pink noise (Paul Kellet's filter), looped seamlessly with an equal-power crossfade.
+// Pink noise (cascaded one-pole filters over white noise), looped seamlessly with an equal-power crossfade.
 function createPinkNoiseBuffer(ctx, seconds, fadeSeconds = 0.5) {
   const rate = ctx.sampleRate;
   const length = Math.floor(seconds * rate);

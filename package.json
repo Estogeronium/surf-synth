@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Pink-noise ocean surf synthesizer with a Dieter Rams-style 3D interface",
+  "description": "Pink-noise ocean surf synthesizer with a 3D hardware-style interface",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
