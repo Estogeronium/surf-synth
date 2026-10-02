@@ -54,7 +54,6 @@ export function createPanel({ onSelect, onHighlight, onXray, onNet }) {
     <div class="bom"></div>
     <h4>Кроме деталей на схеме</h4>
     <ul class="extra">${hw.extra.map((e) => `<li><b>${esc(e.name)}</b> ×${esc(e.qty)}${e.url ? ` · <a href="${esc(e.url)}" target="_blank" rel="noopener">chipdip.ru</a>` : ''}<br><span>${esc(e.note)}</span>${e.title ? `<br><small>${esc(e.title)}</small>` : ''}</li>`).join('')}</ul>
-    <p class="meta">Названия и ссылки взяты из поиска по chipdip.ru. Страницы товаров я открыть не мог, поэтому наличие и цены проверьте на сайте.</p>
   </div>
   <div class="tabpane" data-pane="schem" hidden>
     <div class="sheetbar">
