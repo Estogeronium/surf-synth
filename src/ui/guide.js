@@ -2,8 +2,6 @@
 import hw from '../hardware-data/hardware.json';
 
 const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-const dsp = hw.dsp || [];
-const mid = dsp[0];
 
 const pinRows = [
   [12, 'GP9', 'DIN усилителя', 'I2S_DIN'], [14, 'GP10', 'BCLK усилителя', 'I2S_BCLK'], [15, 'GP11', 'LRC усилителя', 'I2S_LRC'],
@@ -38,21 +36,8 @@ ${pinRows.map(([n, name, to, net]) => `<tr><td><b>${n}</b> ${esc(name)}</td><td>
 <h3>Прошивка</h3>
 <ol>
 <li>Установите Arduino IDE. В менеджере плат добавьте адрес <code>https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json</code> и установите «Raspberry Pi Pico/RP2040/RP2350».</li>
-<li>Откройте <code>hardware/digital/firmware/surf_synth/surf_synth.ino</code>, плата — «Raspberry Pi Pico 2».</li>
+<li>Скачайте прошивку — два файла в одной папке <code>surf_synth</code>: <a href="firmware/surf_synth.ino" download>surf_synth.ino</a> и <a href="firmware/surf_dsp.h" download>surf_dsp.h</a>. Все файлы также лежат <a href="https://github.com/Estogeronium/surf-synth/tree/main/hardware/digital/firmware/surf_synth" target="_blank" rel="noopener">в репозитории на GitHub</a>.</li>
+<li>Откройте <code>surf_synth.ino</code> в Arduino IDE, плата — «Raspberry Pi Pico 2».</li>
 <li>Зажмите BOOTSEL на Pico, подключите USB, нажмите «Загрузить». Питание 5 В от блока при этом отключите или не включайте кнопкой.</li>
-</ol>
-
-<h3>Что проверено</h3>
-<ul>
-<li><b>Прошивка и сайт звучат одинаково.</b> Звуковой код на C++ собран на компьютере и сравнён с кодом сайта на трёх наборах ручек по 2 минуты звука: громкость отличается на ${mid ? Math.round(Math.abs(1 - mid.cpp.rms / mid.js.rms) * 100) : '—'} %, доли частотных полос — на единицы процентов, динамический диапазон волн и интервал между волнами совпадают (в таблице <code>dsp-compare.json</code>).</li>
-<li><b>Схема.</b> Правила проверки (ERC) прошли, ${hw.checks.filter((c) => c.ok).length} из ${hw.checks.length} проверок выводов пройдены: шина I2S (LRC = BCLK + 1), SPI0, питание 3,3 В и 5 В, ток светодиода и базы Q1.</li>
-<li><b>Прошивка компилируется</b> с заглушками, повторяющими интерфейс библиотек Arduino-Pico (I2S: <code>setBCLK</code>, <code>setDATA</code>, <code>write16</code>; SPI: <code>setRX</code>, <code>setTX</code>, <code>setSCK</code>), которые я сверил с исходниками библиотеки.</li>
-</ul>
-
-<h3>Что не проверено</h3>
-<ul>
-<li>Устройство не собиралось, прошивка не запускалась на реальной Pico 2: компилятор Arduino-Pico из моей среды недоступен.</li>
-<li>Порядок выводов на плате модуля MAX98357A и тип оси потенциометров сверьте по надписям на плате и по странице товара: из выдачи chipdip.ru их подтвердить не удалось.</li>
-<li>Страницы chipdip.ru я не мог открыть напрямую, названия и ссылки взяты из поисковой выдачи. Наличие и цену проверьте на сайте перед заказом.</li>
-</ul>`;
+</ol>`;
 }
